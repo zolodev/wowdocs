@@ -9,7 +9,7 @@ Manual tags are not stored here; they live in site/icon-tags.jsonl.
 Usage:
     python3 tools/build_icons.py [path/to/png]
 
-Default path: ../png next to the site folder.
+Default path: png/ in this repo.
 """
 import json
 import pathlib
@@ -18,7 +18,7 @@ import struct
 import sys
 
 SITE = pathlib.Path(__file__).resolve().parent.parent
-DEFAULT_PNG = SITE.parent / "png"
+DEFAULT_PNG = SITE / "png"
 OUT = SITE / "icons-index.js"
 
 CLASSES = {

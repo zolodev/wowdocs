@@ -312,7 +312,13 @@ import Fuse from "./vendor/fuse.min.mjs";
   Object.entries(labels).forEach(([g, label]) => groupByName.set(label.toLowerCase(), g)); // "Any class" → Class
   const categoryGroups = (name) => new Set((categories.find(([n]) => n === name) || [, []])[1]);
   const classGroups = categoryGroups("Classes"), raceGroups = categoryGroups("Races");
-  const src = (ic) => index.folder + encodeURIComponent(ic.file);
+  // The icons (~900 MB) are too big for the site host, so they load straight from the
+  // GitHub repo. On a local server (python3 -m http.server) they load from png/ instead.
+  const ICON_URL = "https://raw.githubusercontent.com/zolodev/wowdocs/main/png/";
+  const isLocal = location.protocol === "file:" ||
+    /^(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(location.hostname);
+  const iconBase = isLocal ? index.folder : ICON_URL;
+  const src = (ic) => iconBase + encodeURIComponent(ic.file);
 
   // ── Manual tags ──────────────────────────────────────────────────────────
   // base  = site/icon-tags.jsonl (what you exported and put in the site folder)
