@@ -1,0 +1,2848 @@
+{
+"about": "Icons used by each class's spells and skills in WoW Forever: icon name -> classes (and races, for racial skills).",
+"icons": {
+"ability_ambush": {
+"classes": [
+"Druid"
+]
+},
+"ability_backstab": {
+"classes": [
+"Rogue"
+]
+},
+"ability_bullrush": {
+"classes": [
+"Druid",
+"Warlock",
+"Warrior"
+]
+},
+"ability_cheapshot": {
+"classes": [
+"Rogue"
+]
+},
+"ability_criticalstrike": {
+"classes": [
+"Warrior"
+]
+},
+"ability_defend": {
+"classes": [
+"Warrior"
+]
+},
+"ability_druid_aquaticform": {
+"classes": [
+"Druid"
+]
+},
+"ability_druid_bash": {
+"classes": [
+"Druid"
+]
+},
+"ability_druid_catform": {
+"classes": [
+"Druid"
+]
+},
+"ability_druid_challangingroar": {
+"classes": [
+"Druid"
+]
+},
+"ability_druid_cower": {
+"classes": [
+"Druid",
+"Hunter"
+]
+},
+"ability_druid_dash": {
+"classes": [
+"Druid"
+]
+},
+"ability_druid_demoralizingroar": {
+"classes": [
+"Druid",
+"Hunter"
+]
+},
+"ability_druid_disembowel": {
+"classes": [
+"Druid"
+]
+},
+"ability_druid_empoweredrejuvination": {
+"classes": [
+"Druid"
+]
+},
+"ability_druid_enrage": {
+"classes": [
+"Druid"
+]
+},
+"ability_druid_ferociousbite": {
+"classes": [
+"Druid"
+]
+},
+"ability_druid_flourish": {
+"classes": [
+"Druid"
+]
+},
+"ability_druid_giftoftheearthmother": {
+"classes": [
+"Druid"
+]
+},
+"ability_druid_lacerate": {
+"classes": [
+"Druid"
+]
+},
+"ability_druid_lunarguidance": {
+"classes": [
+"Druid",
+"Shaman"
+]
+},
+"ability_druid_maul": {
+"classes": [
+"Druid"
+]
+},
+"ability_druid_nourish": {
+"classes": [
+"Druid"
+]
+},
+"ability_druid_rake": {
+"classes": [
+"Druid"
+]
+},
+"ability_druid_ravage": {
+"classes": [
+"Druid"
+]
+},
+"ability_druid_starfall": {
+"classes": [
+"Druid"
+]
+},
+"ability_druid_supriseattack": {
+"classes": [
+"Druid"
+]
+},
+"ability_druid_tigersroar": {
+"classes": [
+"Druid"
+]
+},
+"ability_druid_travelform": {
+"classes": [
+"Druid"
+]
+},
+"ability_eyeoftheowl": {
+"classes": [
+"Hunter"
+]
+},
+"ability_ghoulfrenzy": {
+"classes": [
+"Druid"
+]
+},
+"ability_golemthunderclap": {
+"classes": [
+"Warrior"
+]
+},
+"ability_gouge": {
+"classes": [
+"Hunter",
+"Rogue",
+"Warrior"
+]
+},
+"ability_hunter_aimedshot": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_animalhandler": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_aspectofthemonkey": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_aspectoftheviper": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_beastcall": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_beastsoothe": {
+"classes": [
+"Druid",
+"Hunter"
+]
+},
+"ability_hunter_beasttaming": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_beasttraining": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_chimerashot2": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_criticalshot": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_eagleeye": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_harass": {
+"classes": [
+"Hunter",
+"Warrior"
+]
+},
+"ability_hunter_killcommand": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_mendpet": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_pet_bear": {
+"classes": [
+"Druid"
+]
+},
+"ability_hunter_pet_cat": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_pet_crab": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_pet_crocolisk": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_pet_dragonhawk": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_pet_gorilla": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_pet_hyena": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_pet_raptor": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_pet_turtle": {
+"classes": [
+"Mage"
+]
+},
+"ability_hunter_pet_wolf": {
+"classes": [
+"Shaman"
+]
+},
+"ability_hunter_quickshot": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_readiness": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_runningshot": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_snipershot": {
+"classes": [
+"Hunter"
+]
+},
+"ability_hunter_swiftstrike": {
+"classes": [
+"Hunter",
+"Shaman",
+"Warrior"
+]
+},
+"ability_impalingbolt": {
+"classes": [
+"Hunter"
+]
+},
+"ability_kick": {
+"classes": [
+"Rogue"
+]
+},
+"ability_mage_arcanebarrage": {
+"classes": [
+"Hunter",
+"Mage"
+]
+},
+"ability_mage_firestarter": {
+"classes": [
+"Druid"
+]
+},
+"ability_mage_frostfirebolt": {
+"classes": [
+"Mage"
+]
+},
+"ability_mage_livingbomb": {
+"classes": [
+"Mage"
+]
+},
+"ability_marksmanship": {
+"classes": [
+"Hunter"
+]
+},
+"ability_meleedamage": {
+"classes": [
+"Hunter",
+"Warrior"
+]
+},
+"ability_mount_jungletiger": {
+"classes": [
+"Druid",
+"Hunter"
+]
+},
+"ability_mount_pinktiger": {
+"classes": [
+"Hunter"
+]
+},
+"ability_mount_whitetiger": {
+"classes": [
+"Hunter"
+]
+},
+"ability_paladin_blessedhands": {
+"classes": [
+"Paladin"
+]
+},
+"ability_paladin_blessedmending": {
+"classes": [
+"Paladin"
+]
+},
+"ability_paladin_blindinglight2": {
+"classes": [
+"Priest"
+],
+"races": [
+"Gnome"
+]
+},
+"ability_paladin_divinestorm": {
+"classes": [
+"Paladin"
+]
+},
+"ability_paladin_hammeroftherighteous": {
+"classes": [
+"Paladin"
+]
+},
+"ability_paladin_judgementofthepure": {
+"classes": [
+"Paladin"
+]
+},
+"ability_paladin_righteousvengeance": {
+"classes": [
+"Paladin"
+]
+},
+"ability_paladin_shieldofvengeance": {
+"classes": [
+"Paladin"
+]
+},
+"ability_parry": {
+"classes": [
+"Rogue"
+]
+},
+"ability_physical_taunt": {
+"classes": [
+"Druid",
+"Hunter"
+]
+},
+"ability_priest_savinggrace": {
+"classes": [
+"Priest"
+],
+"races": [
+"Human"
+]
+},
+"ability_priest_soulwarding": {
+"classes": [
+"Priest"
+],
+"races": [
+"Gnome"
+]
+},
+"ability_racial_avatar": {
+"classes": [
+"Hunter",
+"Warrior"
+]
+},
+"ability_racial_bearform": {
+"classes": [
+"Druid"
+]
+},
+"ability_racial_bloodrage": {
+"classes": [
+"Warrior"
+]
+},
+"ability_racial_cannibalize": {
+"classes": [
+"Druid"
+]
+},
+"ability_rogue_ambush": {
+"classes": [
+"Rogue",
+"Warrior"
+]
+},
+"ability_rogue_deadlybrew": {
+"classes": [
+"Rogue"
+]
+},
+"ability_rogue_distract": {
+"classes": [
+"Rogue"
+]
+},
+"ability_rogue_dualweild": {
+"classes": [
+"Rogue"
+]
+},
+"ability_rogue_eviscerate": {
+"classes": [
+"Rogue"
+]
+},
+"ability_rogue_feigndeath": {
+"classes": [
+"Hunter"
+]
+},
+"ability_rogue_feint": {
+"classes": [
+"Hunter",
+"Rogue"
+]
+},
+"ability_rogue_garrote": {
+"classes": [
+"Rogue"
+]
+},
+"ability_rogue_kidneyshot": {
+"classes": [
+"Rogue"
+]
+},
+"ability_rogue_quickrecovery": {
+"classes": [
+"Warlock"
+]
+},
+"ability_rogue_rupture": {
+"classes": [
+"Rogue"
+]
+},
+"ability_rogue_slicedice": {
+"classes": [
+"Rogue"
+]
+},
+"ability_rogue_sprint": {
+"classes": [
+"Rogue",
+"Warrior"
+]
+},
+"ability_rogue_trip": {
+"classes": [
+"Hunter"
+]
+},
+"ability_sap": {
+"classes": [
+"Rogue"
+]
+},
+"ability_shaman_lavalash": {
+"classes": [
+"Shaman"
+]
+},
+"ability_shaman_totemrelocation": {
+"classes": [
+"Shaman"
+]
+},
+"ability_shockwave": {
+"classes": [
+"Warrior"
+]
+},
+"ability_spy": {
+"classes": [
+"Rogue"
+]
+},
+"ability_stealth": {
+"classes": [
+"Hunter",
+"Rogue"
+]
+},
+"ability_theblackarrow": {
+"classes": [
+"Rogue"
+]
+},
+"ability_thunderbolt": {
+"classes": [
+"Paladin"
+]
+},
+"ability_thunderclap": {
+"classes": [
+"Paladin"
+]
+},
+"ability_tracking": {
+"classes": [
+"Druid",
+"Hunter"
+]
+},
+"ability_trueshot": {
+"classes": [
+"Hunter"
+]
+},
+"ability_upgrademoonglaive": {
+"classes": [
+"Hunter",
+"Rogue"
+]
+},
+"ability_vanish": {
+"classes": [
+"Rogue"
+]
+},
+"ability_warlock_chaosbolt": {
+"classes": [
+"Warlock"
+]
+},
+"ability_warlock_demonicpower": {
+"classes": [
+"Warlock"
+]
+},
+"ability_warlock_empoweredimp": {
+"classes": [
+"Warlock"
+]
+},
+"ability_warlock_eradication": {
+"classes": [
+"Warlock"
+]
+},
+"ability_warlock_improveddemonictactics": {
+"classes": [
+"Warlock"
+]
+},
+"ability_warlock_incubus": {
+"classes": [
+"Warlock"
+]
+},
+"ability_warlock_shadowflame": {
+"classes": [
+"Warlock"
+]
+},
+"ability_warrior_battleshout": {
+"classes": [
+"Warrior"
+]
+},
+"ability_warrior_challange": {
+"classes": [
+"Hunter",
+"Warrior"
+]
+},
+"ability_warrior_charge": {
+"classes": [
+"Warrior"
+]
+},
+"ability_warrior_cleave": {
+"classes": [
+"Warrior"
+]
+},
+"ability_warrior_commandingshout": {
+"classes": [
+"Warrior"
+]
+},
+"ability_warrior_decisivestrike": {
+"classes": [
+"Warrior"
+]
+},
+"ability_warrior_defensivestance": {
+"classes": [
+"Warrior"
+]
+},
+"ability_warrior_devastate": {
+"classes": [
+"Warrior"
+]
+},
+"ability_warrior_disarm": {
+"classes": [
+"Warrior"
+]
+},
+"ability_warrior_innerrage": {
+"classes": [
+"Paladin",
+"Warrior"
+]
+},
+"ability_warrior_offensivestance": {
+"classes": [
+"Warrior"
+]
+},
+"ability_warrior_punishingblow": {
+"classes": [
+"Warrior"
+]
+},
+"ability_warrior_rallyingcry": {
+"classes": [
+"Warrior"
+]
+},
+"ability_warrior_revenge": {
+"classes": [
+"Warrior"
+]
+},
+"ability_warrior_riposte": {
+"classes": [
+"Rogue"
+]
+},
+"ability_warrior_savageblow": {
+"classes": [
+"Warrior"
+]
+},
+"ability_warrior_shieldbash": {
+"classes": [
+"Warrior"
+]
+},
+"ability_warrior_shieldwall": {
+"classes": [
+"Warrior"
+]
+},
+"ability_warrior_shockwave": {
+"classes": [
+"Warrior"
+]
+},
+"ability_warrior_sunder": {
+"classes": [
+"Warrior"
+]
+},
+"ability_warrior_warcry": {
+"classes": [
+"Warrior"
+]
+},
+"ability_whirlwind": {
+"classes": [
+"Hunter",
+"Warrior"
+]
+},
+"achievement_dungeon_theviolethold_normal": {
+"classes": [
+"Mage"
+]
+},
+"classicon_paladin": {
+"classes": [
+"Paladin"
+]
+},
+"hunter_pvp_snipershot": {
+"classes": [
+"Hunter"
+]
+},
+"inv_1h_haremmatron_d_01": {
+"classes": [
+"Rogue"
+]
+},
+"inv_ammo_firetar": {
+"classes": [
+"Warlock"
+]
+},
+"inv_axe_03": {
+"classes": [
+"Warrior"
+]
+},
+"inv_axe_06": {
+"classes": [
+"Warrior"
+]
+},
+"inv_axe_10": {
+"classes": [
+"Shaman"
+]
+},
+"inv_belt_18": {
+"classes": [
+"Warrior"
+]
+},
+"inv_chest_cloth_45": {
+"classes": [
+"Druid",
+"Hunter",
+"Mage",
+"Rogue",
+"Shaman",
+"Warrior"
+]
+},
+"inv_drink_06": {
+"classes": [
+"Mage"
+]
+},
+"inv_drink_07": {
+"classes": [
+"Mage"
+]
+},
+"inv_drink_09": {
+"classes": [
+"Mage"
+]
+},
+"inv_drink_10": {
+"classes": [
+"Mage"
+]
+},
+"inv_drink_11": {
+"classes": [
+"Mage"
+]
+},
+"inv_drink_18": {
+"classes": [
+"Mage"
+]
+},
+"inv_drink_milk_02": {
+"classes": [
+"Mage"
+]
+},
+"inv_drink_waterskin_11": {
+"classes": [
+"Mage"
+]
+},
+"inv_enchant_essencemysticallarge": {
+"classes": [
+"Mage"
+]
+},
+"inv_enchant_essencemysticalsmall": {
+"classes": [
+"Mage"
+]
+},
+"inv_feather_01": {
+"classes": [
+"Druid",
+"Rogue"
+]
+},
+"inv_gauntlets_04": {
+"classes": [
+"Warrior"
+]
+},
+"inv_jewelry_ring_31": {
+"classes": [
+"Druid",
+"Hunter",
+"Mage",
+"Paladin",
+"Priest",
+"Rogue",
+"Shaman",
+"Warlock",
+"Warrior"
+]
+},
+"inv_mace_01": {
+"classes": [
+"Rogue",
+"Warrior"
+]
+},
+"inv_mace_1h_stratholme_d_02": {
+"classes": [
+"Warlock"
+]
+},
+"inv_misc_bag_11": {
+"classes": [
+"Rogue"
+]
+},
+"inv_misc_bone_taurenskull_01": {
+"classes": [
+"Druid"
+]
+},
+"inv_misc_book_06": {
+"classes": [
+"Warlock"
+]
+},
+"inv_misc_cape_20": {
+"classes": [
+"Druid",
+"Hunter",
+"Mage",
+"Paladin",
+"Rogue",
+"Shaman",
+"Warlock",
+"Warrior"
+]
+},
+"inv_misc_cape_21": {
+"classes": [
+"Mage",
+"Priest",
+"Shaman"
+]
+},
+"inv_misc_desecrated_clothboots": {
+"classes": [
+"Priest"
+]
+},
+"inv_misc_desecrated_clothbracer": {
+"classes": [
+"Druid",
+"Hunter",
+"Mage",
+"Paladin",
+"Priest",
+"Rogue",
+"Shaman",
+"Warlock",
+"Warrior"
+]
+},
+"inv_misc_desecrated_clothchest": {
+"classes": [
+"Hunter"
+]
+},
+"inv_misc_desecrated_leatherbelt": {
+"classes": [
+"Druid",
+"Hunter",
+"Mage",
+"Paladin",
+"Priest",
+"Rogue",
+"Shaman",
+"Warlock",
+"Warrior"
+]
+},
+"inv_misc_desecrated_leatherboots": {
+"classes": [
+"Druid",
+"Hunter",
+"Mage",
+"Paladin",
+"Priest",
+"Rogue",
+"Shaman",
+"Warlock",
+"Warrior"
+]
+},
+"inv_misc_desecrated_leatherchest": {
+"classes": [
+"Druid",
+"Mage",
+"Paladin",
+"Priest",
+"Shaman",
+"Warlock",
+"Warrior"
+]
+},
+"inv_misc_desecrated_leatherglove": {
+"classes": [
+"Druid",
+"Hunter",
+"Mage",
+"Paladin",
+"Priest",
+"Rogue",
+"Shaman",
+"Warlock",
+"Warrior"
+]
+},
+"inv_misc_desecrated_leatherhelm": {
+"classes": [
+"Druid",
+"Hunter",
+"Mage",
+"Paladin",
+"Priest",
+"Rogue",
+"Shaman",
+"Warlock",
+"Warrior"
+]
+},
+"inv_misc_desecrated_leatherpants": {
+"classes": [
+"Druid",
+"Mage",
+"Paladin",
+"Priest",
+"Shaman",
+"Warlock",
+"Warrior"
+]
+},
+"inv_misc_eye_03": {
+"classes": [
+"Priest"
+]
+},
+"inv_misc_food_08": {
+"classes": [
+"Mage"
+]
+},
+"inv_misc_food_09": {
+"classes": [
+"Mage"
+]
+},
+"inv_misc_food_10": {
+"classes": [
+"Mage"
+]
+},
+"inv_misc_food_11": {
+"classes": [
+"Mage"
+]
+},
+"inv_misc_food_12": {
+"classes": [
+"Mage"
+]
+},
+"inv_misc_food_33": {
+"classes": [
+"Mage"
+]
+},
+"inv_misc_food_73cinnamonroll": {
+"classes": [
+"Mage"
+]
+},
+"inv_misc_gem_bloodstone_02": {
+"classes": [
+"Warlock"
+]
+},
+"inv_misc_gem_emerald_01": {
+"classes": [
+"Mage"
+]
+},
+"inv_misc_gem_emerald_02": {
+"classes": [
+"Mage"
+]
+},
+"inv_misc_gem_opal_01": {
+"classes": [
+"Mage"
+]
+},
+"inv_misc_gem_ruby_01": {
+"classes": [
+"Mage"
+]
+},
+"inv_misc_gem_sapphire_01": {
+"classes": [
+"Warlock"
+]
+},
+"inv_misc_head_dragon_01": {
+"classes": [
+"Hunter"
+]
+},
+"inv_misc_head_dragon_black": {
+"classes": [
+"Hunter"
+]
+},
+"inv_misc_head_dragon_bronze": {
+"classes": [
+"Hunter"
+]
+},
+"inv_misc_herb_felblossom": {
+"classes": [
+"Druid"
+]
+},
+"inv_misc_herb_talandrasrose": {
+"classes": [
+"Druid"
+]
+},
+"inv_misc_horn_03": {
+"classes": [
+"Paladin"
+]
+},
+"inv_misc_monsterclaw_03": {
+"classes": [
+"Druid",
+"Hunter"
+]
+},
+"inv_misc_orb_04": {
+"classes": [
+"Warlock"
+]
+},
+"inv_misc_pelt_bear_03": {
+"classes": [
+"Hunter"
+]
+},
+"inv_misc_rune_06": {
+"classes": [
+"Priest",
+"Warlock"
+],
+"races": [
+"Dwarf",
+"Human",
+"Night Elf",
+"Troll"
+]
+},
+"inv_misc_rune_10": {
+"classes": [
+"Warlock"
+]
+},
+"inv_musket_02": {
+"classes": [
+"Rogue"
+]
+},
+"inv_pants_cloth_02": {
+"classes": [
+"Druid",
+"Hunter",
+"Mage",
+"Paladin",
+"Rogue",
+"Shaman"
+]
+},
+"inv_relics_totemofrage": {
+"classes": [
+"Paladin"
+]
+},
+"inv_shield_05": {
+"classes": [
+"Warrior"
+]
+},
+"inv_shield_06": {
+"classes": [
+"Paladin",
+"Shaman"
+]
+},
+"inv_spear_04": {
+"classes": [
+"Shaman"
+]
+},
+"inv_spear_07": {
+"classes": [
+"Hunter"
+]
+},
+"inv_staff_01": {
+"classes": [
+"Druid"
+]
+},
+"inv_stone_04": {
+"classes": [
+"Warlock"
+]
+},
+"inv_sword_05": {
+"classes": [
+"Warrior"
+]
+},
+"inv_sword_11": {
+"classes": [
+"Warrior"
+]
+},
+"inv_sword_27": {
+"classes": [
+"Warrior"
+]
+},
+"inv_sword_48": {
+"classes": [
+"Warrior"
+]
+},
+"inv_throwingknife_01": {
+"classes": [
+"Rogue"
+]
+},
+"inv_throwingknife_04": {
+"classes": [
+"Rogue"
+]
+},
+"inv_throwingknife_06": {
+"classes": [
+"Hunter"
+]
+},
+"inv_weapon_crossbow_11": {
+"classes": [
+"Rogue"
+]
+},
+"inv_weapon_rifle_01": {
+"classes": [
+"Rogue"
+]
+},
+"inv_weapon_shortblade_05": {
+"classes": [
+"Rogue"
+]
+},
+"inv_weapon_shortblade_59": {
+"classes": [
+"Rogue"
+]
+},
+"spell_arcane_arcane03": {
+"classes": [
+"Druid"
+]
+},
+"spell_arcane_arcanetorrent": {
+"classes": [
+"Mage"
+]
+},
+"spell_arcane_blast": {
+"classes": [
+"Mage"
+]
+},
+"spell_arcane_blink": {
+"classes": [
+"Hunter",
+"Mage"
+]
+},
+"spell_arcane_portaldarnassus": {
+"classes": [
+"Mage"
+],
+"races": [
+"Dwarf",
+"Gnome",
+"Human",
+"Night Elf"
+]
+},
+"spell_arcane_portalironforge": {
+"classes": [
+"Mage"
+],
+"races": [
+"Dwarf",
+"Gnome",
+"Human",
+"Night Elf"
+]
+},
+"spell_arcane_portalorgrimmar": {
+"classes": [
+"Mage"
+],
+"races": [
+"Orc",
+"Tauren",
+"Troll",
+"Undead"
+]
+},
+"spell_arcane_portalstormwind": {
+"classes": [
+"Mage"
+],
+"races": [
+"Dwarf",
+"Gnome",
+"Human",
+"Night Elf"
+]
+},
+"spell_arcane_portalthunderbluff": {
+"classes": [
+"Mage"
+],
+"races": [
+"Orc",
+"Tauren",
+"Troll",
+"Undead"
+]
+},
+"spell_arcane_portalundercity": {
+"classes": [
+"Mage"
+],
+"races": [
+"Orc",
+"Tauren",
+"Troll",
+"Undead"
+]
+},
+"spell_arcane_starfire": {
+"classes": [
+"Druid",
+"Priest"
+],
+"races": [
+"Night Elf"
+]
+},
+"spell_arcane_teleportdarnassus": {
+"classes": [
+"Mage"
+],
+"races": [
+"Dwarf",
+"Gnome",
+"Human",
+"Night Elf"
+]
+},
+"spell_arcane_teleporthalloftheguardian": {
+"classes": [
+"Mage"
+],
+"races": [
+"Dwarf",
+"Gnome",
+"Human",
+"Night Elf"
+]
+},
+"spell_arcane_teleportironforge": {
+"classes": [
+"Mage"
+],
+"races": [
+"Dwarf",
+"Gnome",
+"Human",
+"Night Elf"
+]
+},
+"spell_arcane_teleportmoonglade": {
+"classes": [
+"Druid"
+]
+},
+"spell_arcane_teleportorgrimmar": {
+"classes": [
+"Mage"
+],
+"races": [
+"Orc",
+"Tauren",
+"Troll",
+"Undead"
+]
+},
+"spell_arcane_teleportstormwind": {
+"classes": [
+"Mage"
+],
+"races": [
+"Dwarf",
+"Gnome",
+"Human",
+"Night Elf"
+]
+},
+"spell_arcane_teleportthunderbluff": {
+"classes": [
+"Mage"
+],
+"races": [
+"Orc",
+"Tauren",
+"Troll",
+"Undead"
+]
+},
+"spell_arcane_teleportundercity": {
+"classes": [
+"Mage"
+],
+"races": [
+"Orc",
+"Tauren",
+"Troll",
+"Undead"
+]
+},
+"spell_deathknight_bloodplague": {
+"classes": [
+"Priest"
+]
+},
+"spell_deathknight_spelldeflection": {
+"classes": [
+"Rogue"
+]
+},
+"spell_fire_blueflamebolt": {
+"classes": [
+"Mage"
+]
+},
+"spell_fire_burnout": {
+"classes": [
+"Warlock"
+]
+},
+"spell_fire_enchantweapon": {
+"classes": [
+"Shaman"
+]
+},
+"spell_fire_firearmor": {
+"classes": [
+"Hunter",
+"Mage"
+]
+},
+"spell_fire_fireball": {
+"classes": [
+"Mage",
+"Warlock"
+]
+},
+"spell_fire_fireball02": {
+"classes": [
+"Mage",
+"Warlock"
+]
+},
+"spell_fire_firebolt": {
+"classes": [
+"Mage",
+"Warlock"
+]
+},
+"spell_fire_flamebolt": {
+"classes": [
+"Mage"
+]
+},
+"spell_fire_flameshock": {
+"classes": [
+"Hunter",
+"Shaman",
+"Warlock"
+]
+},
+"spell_fire_flametounge": {
+"classes": [
+"Shaman"
+]
+},
+"spell_fire_flare": {
+"classes": [
+"Hunter"
+]
+},
+"spell_fire_immolation": {
+"classes": [
+"Warlock"
+]
+},
+"spell_fire_incinerate": {
+"classes": [
+"Warlock"
+]
+},
+"spell_fire_masterofelements": {
+"classes": [
+"Mage"
+]
+},
+"spell_fire_sealoffire": {
+"classes": [
+"Paladin",
+"Shaman"
+]
+},
+"spell_fire_searingtotem": {
+"classes": [
+"Shaman"
+]
+},
+"spell_fire_selfdestruct": {
+"classes": [
+"Hunter",
+"Mage",
+"Shaman",
+"Warlock"
+]
+},
+"spell_fire_soulburn": {
+"classes": [
+"Mage",
+"Warlock"
+]
+},
+"spell_fire_volcano": {
+"classes": [
+"Warlock"
+]
+},
+"spell_fire_windsofwoe": {
+"classes": [
+"Hunter"
+]
+},
+"spell_fireresistancetotem_01": {
+"classes": [
+"Shaman"
+]
+},
+"spell_frost_chainsofice": {
+"classes": [
+"Hunter"
+]
+},
+"spell_frost_coldhearted": {
+"classes": [
+"Mage"
+]
+},
+"spell_frost_freezingbreath": {
+"classes": [
+"Hunter"
+]
+},
+"spell_frost_frostarmor02": {
+"classes": [
+"Mage"
+]
+},
+"spell_frost_frostblast": {
+"classes": [
+"Mage"
+]
+},
+"spell_frost_frostbolt02": {
+"classes": [
+"Mage"
+]
+},
+"spell_frost_frostbrand": {
+"classes": [
+"Shaman"
+]
+},
+"spell_frost_frostnova": {
+"classes": [
+"Mage"
+]
+},
+"spell_frost_frostshock": {
+"classes": [
+"Shaman"
+]
+},
+"spell_frost_frostward": {
+"classes": [
+"Hunter",
+"Mage"
+]
+},
+"spell_frost_frozencore": {
+"classes": [
+"Mage"
+]
+},
+"spell_frost_glacier": {
+"classes": [
+"Mage"
+]
+},
+"spell_frost_iceshock": {
+"classes": [
+"Mage"
+]
+},
+"spell_frost_icestorm": {
+"classes": [
+"Mage"
+]
+},
+"spell_frost_stun": {
+"classes": [
+"Hunter",
+"Shaman"
+]
+},
+"spell_frost_summonwaterelemental": {
+"classes": [
+"Hunter",
+"Shaman"
+]
+},
+"spell_frost_windwalkon": {
+"classes": [
+"Shaman"
+]
+},
+"spell_frost_wizardmark": {
+"classes": [
+"Paladin"
+]
+},
+"spell_frostresistancetotem_01": {
+"classes": [
+"Shaman"
+]
+},
+"spell_holy_arcaneintellect": {
+"classes": [
+"Mage"
+]
+},
+"spell_holy_auraoflight": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_avenginewrath": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_blessingofprotection": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_blessingofstamina": {
+"classes": [
+"Hunter"
+]
+},
+"spell_holy_blindingheal": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_borrowedtime": {
+"classes": [
+"Mage"
+]
+},
+"spell_holy_chastise": {
+"classes": [
+"Priest"
+],
+"races": [
+"Dwarf"
+]
+},
+"spell_holy_circleofrenewal": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_devotionaura": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_dispelmagic": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_divineintervention": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_divinespirit": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_elunesgrace": {
+"classes": [
+"Priest"
+],
+"races": [
+"Night Elf"
+]
+},
+"spell_holy_excorcism": {
+"classes": [
+"Paladin",
+"Priest"
+]
+},
+"spell_holy_excorcism_02": {
+"classes": [
+"Mage",
+"Paladin"
+]
+},
+"spell_holy_fistofjustice": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_flashheal": {
+"classes": [
+"Mage",
+"Paladin",
+"Priest"
+]
+},
+"spell_holy_greaterblessingofkings": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_greaterblessingoflight": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_greaterblessingofsalvation": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_greaterblessingofwisdom": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_greaterheal": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_heal": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_heal02": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_healingaura": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_holybolt": {
+"classes": [
+"Paladin"
+],
+"races": [
+"Dwarf",
+"Human",
+"Undead"
+]
+},
+"spell_holy_holynova": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_holysmite": {
+"classes": [
+"Paladin",
+"Priest"
+]
+},
+"spell_holy_hopeandgrace": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_innerfire": {
+"classes": [
+"Paladin",
+"Priest"
+]
+},
+"spell_holy_layonhands": {
+"classes": [
+"Paladin",
+"Priest"
+]
+},
+"spell_holy_lesserheal": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_magicalsentry": {
+"classes": [
+"Mage"
+]
+},
+"spell_holy_mindsooth": {
+"classes": [
+"Paladin",
+"Priest"
+]
+},
+"spell_holy_mindvision": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_nullifydisease": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_painsupression": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_penance": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_power": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_powerinfusion_shadow": {
+"classes": [
+"Priest"
+],
+"races": [
+"Undead"
+]
+},
+"spell_holy_powerwordbarrier": {
+"classes": [
+"Paladin",
+"Priest"
+]
+},
+"spell_holy_powerwordshield": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_prayeroffortitude": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_prayerofhealing": {
+"classes": [
+"Hunter"
+]
+},
+"spell_holy_prayerofhealing02": {
+"classes": [
+"Paladin",
+"Priest"
+]
+},
+"spell_holy_prayerofmendingtga": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_prayerofshadowprotection": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_prayerofspirit": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_purify": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_removecurse": {
+"classes": [
+"Druid"
+]
+},
+"spell_holy_renew": {
+"classes": [
+"Paladin",
+"Priest"
+]
+},
+"spell_holy_restoration": {
+"classes": [
+"Paladin",
+"Priest"
+],
+"races": [
+"Dwarf"
+]
+},
+"spell_holy_resurrection": {
+"classes": [
+"Paladin",
+"Priest"
+]
+},
+"spell_holy_retribution": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_retributionaura": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_righteousfury": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_righteousnessaura": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_sealofblood": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_sealoffury": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_sealofmight": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_sealofprotection": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_sealofsacrifice": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_sealofsalvation": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_sealofvalor": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_sealofwisdom": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_sealofwrath": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_searinglight": {
+"classes": [
+"Paladin",
+"Priest"
+]
+},
+"spell_holy_senseundead": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_stoicism": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_summonlightwell": {
+"classes": [
+"Priest"
+]
+},
+"spell_holy_surgeoflight": {
+"classes": [
+"Paladin",
+"Priest"
+]
+},
+"spell_holy_turnundead": {
+"classes": [
+"Paladin"
+]
+},
+"spell_holy_wordfortitude": {
+"classes": [
+"Priest"
+]
+},
+"spell_ice_lament": {
+"classes": [
+"Mage"
+]
+},
+"spell_lightning_lightningbolt01": {
+"classes": [
+"Shaman"
+]
+},
+"spell_magearmor": {
+"classes": [
+"Mage"
+]
+},
+"spell_magic_featherfall": {
+"classes": [
+"Mage"
+]
+},
+"spell_magic_greaterblessingofkings": {
+"classes": [
+"Paladin"
+]
+},
+"spell_magic_lesserinvisibilty": {
+"classes": [
+"Priest"
+]
+},
+"spell_magic_magearmor": {
+"classes": [
+"Paladin",
+"Priest"
+]
+},
+"spell_magic_polymorphpig": {
+"classes": [
+"Mage"
+]
+},
+"spell_nature_abolishmagic": {
+"classes": [
+"Druid",
+"Mage"
+]
+},
+"spell_nature_ancestralguardian": {
+"classes": [
+"Warrior"
+]
+},
+"spell_nature_astralrecal": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_bloodlust": {
+"classes": [
+"Warrior"
+]
+},
+"spell_nature_chainlightning": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_crystalball": {
+"classes": [
+"Druid"
+]
+},
+"spell_nature_cyclone": {
+"classes": [
+"Druid",
+"Shaman"
+]
+},
+"spell_nature_diseasecleansingtotem": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_drowsy": {
+"classes": [
+"Hunter"
+]
+},
+"spell_nature_earthbind": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_earthbindtotem": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_earthshock": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_enchantarmor": {
+"classes": [
+"Warrior"
+]
+},
+"spell_nature_faeriefire": {
+"classes": [
+"Druid"
+]
+},
+"spell_nature_farsight": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_groundingtotem": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_guardianward": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_healingtouch": {
+"classes": [
+"Druid",
+"Shaman"
+]
+},
+"spell_nature_healingwavegreater": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_healingwavelesser": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_insectswarm": {
+"classes": [
+"Druid"
+]
+},
+"spell_nature_invisibilitytotem": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_lightning": {
+"classes": [
+"Druid",
+"Shaman"
+]
+},
+"spell_nature_lightningshield": {
+"classes": [
+"Priest",
+"Shaman"
+],
+"races": [
+"Troll"
+]
+},
+"spell_nature_magicimmunity": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_manaregentotem": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_natureresistancetotem": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_natureswrath": {
+"classes": [
+"Druid",
+"Hunter"
+]
+},
+"spell_nature_nullifydisease": {
+"classes": [
+"Priest"
+]
+},
+"spell_nature_nullifypoison": {
+"classes": [
+"Druid",
+"Shaman"
+]
+},
+"spell_nature_nullifypoison_02": {
+"classes": [
+"Druid"
+]
+},
+"spell_nature_nullward": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_poisoncleansingtotem": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_polymorph": {
+"classes": [
+"Mage"
+]
+},
+"spell_nature_polymorph_cow": {
+"classes": [
+"Mage"
+]
+},
+"spell_nature_preservation": {
+"classes": [
+"Druid"
+]
+},
+"spell_nature_protectionformnature": {
+"classes": [
+"Hunter"
+]
+},
+"spell_nature_purge": {
+"classes": [
+"Mage",
+"Shaman"
+]
+},
+"spell_nature_ravenform": {
+"classes": [
+"Hunter"
+]
+},
+"spell_nature_regenerate": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_regeneration": {
+"classes": [
+"Druid"
+]
+},
+"spell_nature_reincarnation": {
+"classes": [
+"Druid",
+"Shaman",
+"Warrior"
+]
+},
+"spell_nature_rejuvenation": {
+"classes": [
+"Druid"
+]
+},
+"spell_nature_removecurse": {
+"classes": [
+"Mage",
+"Shaman"
+]
+},
+"spell_nature_removedisease": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_resistnature": {
+"classes": [
+"Druid",
+"Hunter"
+]
+},
+"spell_nature_riptide": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_rockbiter": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_skinofearth": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_sleep": {
+"classes": [
+"Druid",
+"Hunter",
+"Mage"
+]
+},
+"spell_nature_slow": {
+"classes": [
+"Priest"
+]
+},
+"spell_nature_slowingtotem": {
+"classes": [
+"Priest"
+]
+},
+"spell_nature_spiritarmor": {
+"classes": [
+"Hunter"
+]
+},
+"spell_nature_spiritwolf": {
+"classes": [
+"Hunter",
+"Shaman"
+]
+},
+"spell_nature_starfall": {
+"classes": [
+"Druid",
+"Hunter",
+"Mage"
+]
+},
+"spell_nature_stoneclawtotem": {
+"classes": [
+"Druid",
+"Shaman"
+]
+},
+"spell_nature_stoneskintotem": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_stranglevines": {
+"classes": [
+"Druid"
+]
+},
+"spell_nature_strengthofearthtotem02": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_thorns": {
+"classes": [
+"Druid"
+]
+},
+"spell_nature_thunderclap": {
+"classes": [
+"Warrior"
+]
+},
+"spell_nature_timestop": {
+"classes": [
+"Paladin"
+]
+},
+"spell_nature_tranquility": {
+"classes": [
+"Druid",
+"Shaman"
+]
+},
+"spell_nature_tremortotem": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_unyeildingstamina": {
+"classes": [
+"Hunter"
+]
+},
+"spell_nature_web": {
+"classes": [
+"Hunter"
+]
+},
+"spell_nature_windfury": {
+"classes": [
+"Shaman"
+]
+},
+"spell_nature_wispsplode": {
+"classes": [
+"Mage"
+]
+},
+"spell_shadow_abominationexplosion": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_antimagicshell": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_antishadow": {
+"classes": [
+"Hunter",
+"Priest",
+"Warlock"
+]
+},
+"spell_shadow_auraofdarkness": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_burningspirit": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_callofbone": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_corpseexplode": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_cripple": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_curseofmannoroth": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_curseofsargeras": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_curseoftounges": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_darksummoning": {
+"classes": [
+"Hunter"
+]
+},
+"spell_shadow_deadofnight": {
+"classes": [
+"Priest"
+],
+"races": [
+"Undead"
+]
+},
+"spell_shadow_deathcoil": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_deathscream": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_demonbreath": {
+"classes": [
+"Shaman",
+"Warlock"
+]
+},
+"spell_shadow_demonform": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_demonicfortitude": {
+"classes": [
+"Priest"
+]
+},
+"spell_shadow_detectinvisibility": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_detectlesserinvisibility": {
+"classes": [
+"Mage"
+]
+},
+"spell_shadow_devouringplague": {
+"classes": [
+"Priest"
+]
+},
+"spell_shadow_dispersion": {
+"classes": [
+"Priest"
+]
+},
+"spell_shadow_enslavedemon": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_evileye": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_felarmour": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_fingerofdeath": {
+"classes": [
+"Priest"
+],
+"races": [
+"Troll"
+]
+},
+"spell_shadow_gathershadows": {
+"classes": [
+"Priest"
+]
+},
+"spell_shadow_grimward": {
+"classes": [
+"Rogue",
+"Warlock"
+]
+},
+"spell_shadow_haunting": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_improvedvampiricembrace": {
+"classes": [
+"Priest"
+]
+},
+"spell_shadow_lifedrain": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_lifedrain02": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_manaburn": {
+"classes": [
+"Priest"
+]
+},
+"spell_shadow_metamorphosis": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_mindshear": {
+"classes": [
+"Priest"
+]
+},
+"spell_shadow_mindsteal": {
+"classes": [
+"Rogue"
+]
+},
+"spell_shadow_painspike": {
+"classes": [
+"Priest"
+]
+},
+"spell_shadow_possession": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_psychicscream": {
+"classes": [
+"Priest"
+]
+},
+"spell_shadow_ragingscream": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_rainoffire": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_requiem": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_ritualofsacrifice": {
+"classes": [
+"Priest",
+"Rogue"
+],
+"races": [
+"Human"
+]
+},
+"spell_shadow_scourgebuild": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_sealofkings": {
+"classes": [
+"Paladin"
+]
+},
+"spell_shadow_shadowbolt": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_shadowfiend": {
+"classes": [
+"Priest"
+]
+},
+"spell_shadow_shadowward": {
+"classes": [
+"Rogue"
+]
+},
+"spell_shadow_shadowworddominate": {
+"classes": [
+"Priest"
+]
+},
+"spell_shadow_shadowwordpain": {
+"classes": [
+"Priest"
+]
+},
+"spell_shadow_siphonmana": {
+"classes": [
+"Priest",
+"Warlock"
+]
+},
+"spell_shadow_soulleech_3": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_summonfelhunter": {
+"classes": [
+"Hunter",
+"Warlock"
+]
+},
+"spell_shadow_summonimp": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_summoninfernal": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_summonsuccubus": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_summonvoidwalker": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_twilight": {
+"classes": [
+"Priest",
+"Warlock"
+]
+},
+"spell_shadow_twistedfaith": {
+"classes": [
+"Priest"
+]
+},
+"spell_shadow_unholyfrenzy": {
+"classes": [
+"Priest"
+]
+},
+"spell_shadow_unholystrength": {
+"classes": [
+"Warlock"
+]
+},
+"spell_shadow_vampiricaura": {
+"classes": [
+"Druid"
+]
+},
+"spell_shaman_dropall_01": {
+"classes": [
+"Shaman"
+]
+},
+"spell_shaman_dropall_02": {
+"classes": [
+"Shaman"
+]
+},
+"spell_shaman_dropall_03": {
+"classes": [
+"Shaman"
+]
+},
+"spell_shaman_lavaburst": {
+"classes": [
+"Shaman"
+]
+},
+"spell_shaman_lavaflow": {
+"classes": [
+"Shaman"
+]
+},
+"spell_shaman_totemrecall": {
+"classes": [
+"Shaman"
+]
+},
+"spell_totem_wardofdraining": {
+"classes": [
+"Priest"
+]
+},
+"warlock_curse_shadow": {
+"classes": [
+"Warlock"
+]
+}
+}
+}

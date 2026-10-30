@@ -1,0 +1,798 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Addon Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+/* ── Tokens ──────────────────────────────────────────────────────────────
+   Semantic colours are WoW's own item-quality scale: rare blue, epic purple,
+   legendary orange, uncommon green. The neutrals are biased toward the rare
+   blue so the accent sits in the same family as the page. */
+:root{
+  --ground:#f2f4f8; --surface:#ffffff; --sunken:#e8ebf2; --code:#eceff6;
+  --ink:#141821; --ink-2:#464e60; --ink-3:#798296;
+  --rule:#d2d8e4; --rule-soft:#e2e7f0;
+  --rare:#0064c8; --epic:#8b27d8; --legendary:#c25700; --uncommon:#157f36;
+  --shadow:0 1px 2px rgba(20,24,33,.06), 0 8px 24px -12px rgba(20,24,33,.18);
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --body:"Source Sans 3",system-ui,-apple-system,Segoe UI,sans-serif;
+  --display:"Archivo","Source Sans 3",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0d1016; --surface:#151a23; --sunken:#1c222d; --code:#0f141c;
+    --ink:#e9ecf3; --ink-2:#a6aebf; --ink-3:#6d7689;
+    --rule:#262d3a; --rule-soft:#1d232e;
+    --rare:#4ea6ff; --epic:#c184f5; --legendary:#ff9b45; --uncommon:#4ecf7b;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0d1016; --surface:#151a23; --sunken:#1c222d; --code:#0f141c;
+  --ink:#e9ecf3; --ink-2:#a6aebf; --ink-3:#6d7689;
+  --rule:#262d3a; --rule-soft:#1d232e;
+  --rare:#4ea6ff; --epic:#c184f5; --legendary:#ff9b45; --uncommon:#4ecf7b;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--body); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1140px; margin:0 auto; padding-inline:20px; padding-block:0}
+
+/* ── Masthead ── */
+header.top{border-bottom:1px solid var(--rule); background:var(--surface)}
+.masthead{padding-block:44px 34px; display:grid; gap:22px}
+.eyebrow{
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3);
+}
+h1{
+  font-family:var(--display); font-weight:800; font-size:clamp(34px,6vw,58px);
+  line-height:1.02; letter-spacing:-.025em; margin:0; text-wrap:balance;
+}
+h1 em{font-style:normal; color:var(--rare)}
+.lede{max-width:62ch; color:var(--ink-2); font-size:18px; margin:0}
+
+.facts{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(128px,1fr));
+  gap:1px; background:var(--rule); border:1px solid var(--rule);
+  border-radius:3px; overflow:hidden; margin-top:4px;
+}
+.fact{background:var(--surface); padding:12px 14px}
+.fact b{
+  display:block; font-family:var(--mono); font-size:21px; font-weight:500;
+  font-variant-numeric:tabular-nums; color:var(--ink); letter-spacing:-.02em;
+}
+.fact span{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-3)}
+
+/* ── Shell ── */
+.shell{display:grid; grid-template-columns:200px minmax(0,1fr); gap:56px; padding-block:48px 80px}
+nav.toc{position:sticky; top:env(safe-area-inset-top,0px); align-self:start; padding-top:8px}
+nav.toc ol{list-style:none; margin:0; padding:0; display:grid; gap:2px}
+nav.toc a{
+  display:block; padding:5px 10px; border-left:2px solid var(--rule-soft);
+  color:var(--ink-2); text-decoration:none; font-size:13.5px;
+}
+nav.toc a:hover{color:var(--rare); border-left-color:var(--rare); background:var(--sunken)}
+nav.toc .grp{
+  font-family:var(--mono); font-size:10px; letter-spacing:.13em; text-transform:uppercase;
+  color:var(--ink-3); padding:14px 10px 4px;
+}
+
+main{min-width:0; max-width:74ch}
+section{padding-block:8px 44px; scroll-margin-top:16px}
+h2{
+  font-family:var(--display); font-weight:700; font-size:27px; letter-spacing:-.018em;
+  margin:36px 0 6px; padding-top:22px; border-top:1px solid var(--rule); text-wrap:balance;
+}
+section:first-of-type h2{border-top:0; padding-top:0; margin-top:0}
+h3{font-family:var(--display); font-weight:600; font-size:17.5px; margin:28px 0 6px; letter-spacing:-.01em}
+h4{font-family:var(--mono); font-weight:500; font-size:13px; letter-spacing:.06em;
+   text-transform:uppercase; color:var(--ink-3); margin:22px 0 6px}
+p{margin:0 0 14px}
+a{color:var(--rare)}
+ul,ol.steps{padding-left:20px; margin:0 0 14px}
+li{margin-bottom:5px}
+code{font-family:var(--mono); font-size:.87em; background:var(--code);
+  padding:1px 5px; border-radius:3px; color:var(--ink)}
+
+pre{
+  background:var(--code); border:1px solid var(--rule-soft); border-left:2px solid var(--rare);
+  border-radius:3px; padding:14px 16px; overflow-x:auto; margin:0 0 16px;
+  font-family:var(--mono); font-size:13px; line-height:1.6;
+}
+pre code{background:none; padding:0; font-size:inherit}
+.cmt{color:var(--ink-3)}
+.kw{color:var(--epic)}
+.str{color:var(--uncommon)}
+.fn{color:var(--rare)}
+
+.tablewrap{overflow-x:auto; margin:0 0 18px; border:1px solid var(--rule); border-radius:3px}
+table{border-collapse:collapse; width:100%; font-size:14px; background:var(--surface)}
+th,td{text-align:left; padding:8px 12px; border-bottom:1px solid var(--rule-soft); vertical-align:top}
+th{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+   color:var(--ink-3); background:var(--sunken); white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td code{white-space:nowrap}
+
+.note{
+  border-left:2px solid var(--legendary); background:var(--sunken);
+  padding:12px 16px; margin:0 0 18px; font-size:14.5px; border-radius:0 3px 3px 0;
+}
+.note.epic{border-left-color:var(--epic)}
+.note.rare{border-left-color:var(--rare)}
+.note b{font-family:var(--display); font-weight:600}
+.note p:last-child{margin-bottom:0}
+
+figure{margin:0 0 22px; background:var(--surface); border:1px solid var(--rule);
+  border-radius:3px; padding:18px 16px 12px; overflow-x:auto}
+figure svg{display:block; width:100%; height:auto; min-width:540px}
+figcaption{font-size:13px; color:var(--ink-3); margin-top:10px; padding-top:9px;
+  border-top:1px solid var(--rule-soft)}
+
+.pill{
+  display:inline-block; font-family:var(--mono); font-size:11px; padding:1px 7px;
+  border-radius:2px; border:1px solid currentColor; letter-spacing:.03em;
+}
+.pill.e{color:var(--epic)} .pill.l{color:var(--legendary)} .pill.u{color:var(--uncommon)}
+
+footer{border-top:1px solid var(--rule); background:var(--surface); color:var(--ink-3);
+  font-size:13.5px; padding-block:26px 34px}
+footer code{font-size:12px}
+
+@media (max-width:860px){
+  .shell{grid-template-columns:1fr; gap:0; padding-block:30px 56px}
+  nav.toc{position:static; border-bottom:1px solid var(--rule); padding-bottom:18px; margin-bottom:26px}
+  nav.toc ol{grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); display:grid}
+  h1{font-size:34px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+
+<header class="top">
+  <div class="wrap masthead">
+    <div class="eyebrow">WoW Forever · interface 16001 · build 1.60.1.69913</div>
+    <h1>Writing addons for <em>WoW&nbsp;Forever</em></h1>
+    <p class="lede">A working handbook: what goes in a <code>.toc</code>, how the API is shaped,
+      how to build a panel out of the widgets everyone actually uses, and how to keep what the
+      user typed. Every count and signature on this page comes from Blizzard's own generated
+      documentation, not from memory.</p>
+    <div class="facts">
+      <div class="fact"><b>611</b><span>systems</span></div>
+      <div class="fact"><b>6,577</b><span>functions</span></div>
+      <div class="fact"><b>1,802</b><span>events</span></div>
+      <div class="fact"><b>282</b><span>C_ namespaces</span></div>
+      <div class="fact"><b>40</b><span>widget types</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap shell">
+<nav class="toc">
+  <ol>
+    <li class="grp">Start</li>
+    <li><a href="#toc">The .toc file</a></li>
+    <li><a href="#shape">Shape of the API</a></li>
+    <li><a href="#life">Lifecycle</a></li>
+    <li class="grp">Tutorial</li>
+    <li><a href="#skeleton">1 · Skeleton</a></li>
+    <li><a href="#widgets">2 · Widget tree</a></li>
+    <li><a href="#panel">3 · A panel</a></li>
+    <li><a href="#controls">4 · Controls</a></li>
+    <li><a href="#db">5 · Saving</a></li>
+    <li class="grp">Reference</li>
+    <li><a href="reference.html">API reference ↗</a></li>
+    <li><a href="icons.html">Icon browser ↗</a></li>
+    <li><a href="#libs">Libraries</a></li>
+    <li><a href="#secret">Secret values</a></li>
+    <li><a href="#lookup">Looking things up</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<section id="toc">
+<h2>The .toc file</h2>
+<p>The folder name and the <code>.toc</code> name must match exactly:
+<code>Interface/AddOns/MyAddon/MyAddon.toc</code>. Everything before the blank line is metadata;
+everything after is the file list, <strong>loaded in the order written</strong>. That order is the
+only dependency mechanism inside an addon — a file can use what earlier files defined, nothing more.</p>
+
+<pre><code><span class="cmt">## Interface: 16001</span>
+<span class="cmt">## Title: MyAddon</span>
+<span class="cmt">## Notes: Short description shown in the AddOns list</span>
+<span class="cmt">## Author: Name</span>
+<span class="cmt">## Version: 1.0.0</span>
+<span class="cmt">## SavedVariables: MyAddonDB</span>
+<span class="cmt">## IconTexture: Interface\Icons\INV_Misc_QuestionMark</span>
+<span class="cmt">## Category: Other</span>
+
+Locales.lua
+Widgets.lua
+Core.lua</code></pre>
+
+<div class="tablewrap"><table>
+<tr><th>Directive</th><th>What it does</th></tr>
+<tr><td><code>## Interface:</code></td><td>Client build this addon targets. Wrong number = flagged out of date. Get the real one in game with <code>/dump select(4, GetBuildInfo())</code> — never hard-code a number you have not checked.</td></tr>
+<tr><td><code>## Title:</code></td><td>Name in the AddOns list. Colour escapes work here.</td></tr>
+<tr><td><code>## Notes:</code></td><td>One-line description. Localise with <code>## Notes-deDE:</code> and friends — there is no continuation directive, so keep it to one line.</td></tr>
+<tr><td><code>## Version:</code></td><td>Your version string. Read it back with <code>C_AddOns.GetAddOnMetadata</code>.</td></tr>
+<tr><td><code>## SavedVariables:</code></td><td>Global table names persisted <em>per account</em>. Space-separated for several.</td></tr>
+<tr><td><code>## SavedVariablesPerCharacter:</code></td><td>Same, but stored under each character.</td></tr>
+<tr><td><code>## Dependencies:</code></td><td>Hard requirement. Your addon will not load without it.</td></tr>
+<tr><td><code>## OptionalDeps:</code></td><td>Load these <em>first</em> if present. This is how you use a library without requiring it.</td></tr>
+<tr><td><code>## LoadOnDemand: 1</code></td><td>Do not load at startup; wait for <code>C_AddOns.LoadAddOn</code>.</td></tr>
+<tr><td><code>## DefaultState: disabled</code></td><td>Ships switched off.</td></tr>
+<tr><td><code>## IconTexture:</code></td><td>Icon in the AddOns list.</td></tr>
+<tr><td><code>## Category:</code></td><td>Grouping in the AddOns list.</td></tr>
+</table></div>
+
+<div class="note rare"><p><b>Interface version.</b> 16001 is <code>major·10000 + minor·100 + patch</code>,
+so patch 1.60.1. It changes every patch. If the client refuses to load the addon, this is the first
+thing to check.</p></div>
+</section>
+
+<section id="shape">
+<h2>Shape of the API</h2>
+<p>6,577 functions is not something you learn. It is something you look things up in. What helps
+is knowing which corner of the API a problem lives in, because the answer is nearly always inside
+one <code>C_Something</code> namespace, and the namespaces are grouped by what they do.</p>
+
+<figure>
+<svg viewBox="0 0 740 430" role="img" aria-labelledby="d1t">
+  <title id="d1t">Functions per area of the WoW Forever API</title>
+  <g font-family="JetBrains Mono, monospace" font-size="11">
+    <!-- rows -->
+    <g fill="var(--ink-2)">
+      <text x="0" y="24">UI &amp; widgets</text>
+      <text x="0" y="56">Everything else</text>
+      <text x="0" y="88">Player &amp; units</text>
+      <text x="0" y="120">Items &amp; bags</text>
+      <text x="0" y="152">System &amp; addons</text>
+      <text x="0" y="184">Chat &amp; comms</text>
+      <text x="0" y="216">Economy &amp; professions</text>
+      <text x="0" y="248">Guild &amp; groups</text>
+      <text x="0" y="280">Instances &amp; PvP</text>
+      <text x="0" y="312">Quests &amp; progression</text>
+      <text x="0" y="344">Spells &amp; auras</text>
+      <text x="0" y="376">Map &amp; world</text>
+    </g>
+    <!-- bars: 460px == 1689 functions -->
+    <g>
+      <rect x="168" y="12"  width="460" height="16" fill="var(--rare)"/>
+      <rect x="168" y="44"  width="368" height="16" fill="var(--ink-3)"/>
+      <rect x="168" y="76"  width="239" height="16" fill="var(--epic)"/>
+      <rect x="168" y="108" width="142" height="16" fill="var(--legendary)"/>
+      <rect x="168" y="140" width="98"  height="16" fill="var(--ink-3)"/>
+      <rect x="168" y="172" width="94"  height="16" fill="var(--uncommon)"/>
+      <rect x="168" y="204" width="90"  height="16" fill="var(--legendary)"/>
+      <rect x="168" y="236" width="76"  height="16" fill="var(--uncommon)"/>
+      <rect x="168" y="268" width="74"  height="16" fill="var(--epic)"/>
+      <rect x="168" y="300" width="65"  height="16" fill="var(--ink-3)"/>
+      <rect x="168" y="332" width="63"  height="16" fill="var(--epic)"/>
+      <rect x="168" y="364" width="23"  height="16" fill="var(--ink-3)"/>
+    </g>
+    <!-- counts + example namespaces -->
+    <g fill="var(--ink-3)" font-size="10">
+      <text x="636" y="24">1689 fn · 53 ev · Simple*API</text>
+      <text x="544" y="56">1352 fn · 411 ev</text>
+      <text x="415" y="88">878 fn · 290 ev · C_Traits</text>
+      <text x="318" y="120">523 fn · 160 ev · C_Item</text>
+      <text x="274" y="152">358 fn · 71 ev · C_AddOns</text>
+      <text x="270" y="184">345 fn · 235 ev · C_ChatInfo</text>
+      <text x="266" y="216">330 fn · 155 ev · C_AuctionHouse</text>
+      <text x="252" y="248">279 fn · 129 ev · C_GuildInfo</text>
+      <text x="250" y="280">272 fn · 82 ev · C_PvP</text>
+      <text x="241" y="312">237 fn · 130 ev · C_QuestLog</text>
+      <text x="239" y="344">230 fn · 63 ev · C_Spell</text>
+      <text x="199" y="376">84 fn · 23 ev · C_Map</text>
+    </g>
+    <!-- axis -->
+    <line x1="168" y1="396" x2="628" y2="396" stroke="var(--rule)" stroke-width="1"/>
+    <g fill="var(--ink-3)" font-size="9.5">
+      <text x="168" y="411">0</text>
+      <text x="381" y="411" text-anchor="middle">800</text>
+      <text x="628" y="411" text-anchor="end">1,689 functions</text>
+    </g>
+  </g>
+</svg>
+<figcaption>Every system in the reference index, bucketed by name. “Everything else” is the long
+tail — housing, collections, individual Blizzard UI panels. Counts are exact; the bucketing is a
+reading aid, not an official taxonomy.</figcaption>
+</figure>
+
+<p>Three practical consequences. <strong>UI is the biggest area by far</strong> — a quarter of the
+whole API is the widget system you draw with. <strong>Chat and comms punch above their weight in
+events</strong>: 235 events against 345 functions, because that corner is something that happens
+<em>to</em> you. And <strong>the long tail is genuinely long</strong>; if a feature has a Blizzard
+panel, it has a namespace.</p>
+</section>
+
+<section id="life">
+<h2>Lifecycle</h2>
+<p>Four moments matter. Get these right and nothing else about startup will surprise you.</p>
+
+<figure>
+<svg viewBox="0 0 740 260" role="img" aria-labelledby="d2t">
+  <title id="d2t">Addon lifecycle from load to logout</title>
+  <g font-family="JetBrains Mono, monospace">
+    <defs>
+      <marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+        <path d="M0,1 L7,4 L0,7 z" fill="var(--ink-3)"/>
+      </marker>
+    </defs>
+    <!-- boxes -->
+    <g>
+      <rect x="2"   y="40" width="164" height="54" rx="3" fill="var(--sunken)" stroke="var(--rare)" stroke-width="1.5"/>
+      <rect x="196" y="40" width="164" height="54" rx="3" fill="var(--sunken)" stroke="var(--rare)" stroke-width="1.5"/>
+      <rect x="390" y="40" width="164" height="54" rx="3" fill="var(--sunken)" stroke="var(--rare)" stroke-width="1.5"/>
+      <rect x="584" y="40" width="154" height="54" rx="3" fill="var(--sunken)" stroke="var(--epic)" stroke-width="1.5"/>
+    </g>
+    <g font-size="11.5" fill="var(--ink)" text-anchor="middle">
+      <text x="84"  y="62">ADDON_LOADED</text>
+      <text x="278" y="62">PLAYER_LOGIN</text>
+      <text x="472" y="62">PLAYER_ENTERING_WORLD</text>
+      <text x="661" y="62">logout · /reload</text>
+    </g>
+    <g font-size="9.5" fill="var(--ink-3)" text-anchor="middle">
+      <text x="84"  y="79">SavedVariables exist</text>
+      <text x="278" y="79">all addons loaded</text>
+      <text x="472" y="79">world is there</text>
+      <text x="661" y="79">SavedVariables written</text>
+    </g>
+    <g stroke="var(--ink-3)" stroke-width="1.2" marker-end="url(#ar)" fill="none">
+      <line x1="168" y1="67" x2="192" y2="67"/>
+      <line x1="362" y1="67" x2="386" y2="67"/>
+      <line x1="556" y1="67" x2="580" y2="67"/>
+    </g>
+    <!-- annotations -->
+    <g font-size="10" fill="var(--ink-2)">
+      <text x="2" y="126">read and default your database here</text>
+      <text x="2" y="142" fill="var(--ink-3)">fires once per addon; check the name argument</text>
+
+      <text x="390" y="126">build frames, start timers here</text>
+      <text x="390" y="142" fill="var(--legendary)">fires on every loading screen, not just login</text>
+      <text x="390" y="158" fill="var(--ink-3)">guard it, or you get a second ticker per zone</text>
+
+      <text x="2" y="192" fill="var(--epic)">There is no save call.</text>
+      <text x="2" y="208" fill="var(--ink-2)">Whatever sits in your SavedVariables table when the client writes</text>
+      <text x="2" y="224" fill="var(--ink-2)">the file is what you get back. Nothing else survives.</text>
+    </g>
+    <line x1="2" y1="172" x2="738" y2="172" stroke="var(--rule)" stroke-width="1"/>
+  </g>
+</svg>
+<figcaption>The payload of <code>PLAYER_ENTERING_WORLD</code> is
+<code>isInitialLogin, isReloadingUi</code> — use it to tell a real login from a UI reload.</figcaption>
+</figure>
+</section>
+
+<section id="skeleton">
+<h2>1 · Skeleton</h2>
+<p>This is the shape of every addon. One frame, one handler table, one loop to register. Adding an
+event later is one function, not one more <code>if</code> branch.</p>
+
+<pre><code><span class="kw">local</span> addonName, ns = ...   <span class="cmt">-- ns is shared between this addon's files</span>
+
+<span class="kw">local</span> frame = <span class="fn">CreateFrame</span>(<span class="str">"Frame"</span>)
+<span class="kw">local</span> handlers = {}
+
+<span class="kw">function</span> handlers.<span class="fn">ADDON_LOADED</span>(name)
+    <span class="kw">if</span> name ~= addonName <span class="kw">then return end</span>
+    MyAddonDB = MyAddonDB <span class="kw">or</span> {}      <span class="cmt">-- SavedVariables exist from here on</span>
+    frame:<span class="fn">UnregisterEvent</span>(<span class="str">"ADDON_LOADED"</span>)
+<span class="kw">end</span>
+
+<span class="kw">function</span> handlers.<span class="fn">PLAYER_ENTERING_WORLD</span>(isInitialLogin, isReloadingUi)
+<span class="kw">end</span>
+
+frame:<span class="fn">SetScript</span>(<span class="str">"OnEvent"</span>, <span class="kw">function</span>(_, event, ...) handlers[event](...) <span class="kw">end</span>)
+<span class="kw">for</span> event <span class="kw">in</span> <span class="fn">pairs</span>(handlers) <span class="kw">do</span> frame:<span class="fn">RegisterEvent</span>(event) <span class="kw">end</span></code></pre>
+
+<div class="note"><p><b>One trap.</b> That last loop registers exactly the events you wrote handlers
+for. If an event fires with no handler, <code>handlers[event]</code> is <code>nil</code> and you get
+a call-a-nil error — so never <code>RegisterEvent</code> outside this table.</p></div>
+
+<h4>Slash commands</h4>
+<pre><code>SLASH_MYADDON1 = <span class="str">"/myaddon"</span>
+SLASH_MYADDON2 = <span class="str">"/mya"</span>
+SlashCmdList.MYADDON = <span class="kw">function</span>(msg)
+    <span class="kw">local</span> cmd, rest = msg:<span class="fn">lower</span>():<span class="fn">match</span>(<span class="str">"^%s*(%S*)%s*(.-)%s*$"</span>)
+    <span class="fn">print</span>(cmd, rest)
+<span class="kw">end</span></code></pre>
+
+<h4>Timers</h4>
+<pre><code>C_Timer.<span class="fn">After</span>(<span class="str">5</span>, <span class="kw">function</span>() <span class="fn">print</span>(<span class="str">"once, five seconds later"</span>) <span class="kw">end</span>)
+<span class="kw">local</span> ticker = C_Timer.<span class="fn">NewTicker</span>(<span class="str">1</span>, <span class="kw">function</span>() <span class="cmt">--[[ every second ]]</span> <span class="kw">end</span>)</code></pre>
+<p>The reference documents <code>C_Timer.NewTicker</code> as returning a <code>TickerCallback</code>
+with no documented methods. If you need to stop a ticker, prefer a flag you check inside the
+callback over a method the reference does not describe.</p>
+</section>
+
+<section id="widgets">
+<h2>2 · Widget tree</h2>
+<p>Widgets inherit their methods in layers. Knowing which layer a method lives on tells you which
+reference file to open — and that is most of the battle, because <code>SetPoint</code> is not in
+the Frame file at all.</p>
+
+<figure>
+<svg viewBox="0 0 740 300" role="img" aria-labelledby="d3t">
+  <title id="d3t">Widget method sets and where they are documented</title>
+  <g font-family="JetBrains Mono, monospace" font-size="11">
+    <!-- trunk -->
+    <g>
+      <rect x="2" y="16"  width="196" height="30" rx="3" fill="var(--sunken)" stroke="var(--rule)"/>
+      <rect x="2" y="56"  width="196" height="30" rx="3" fill="var(--sunken)" stroke="var(--rule)"/>
+      <rect x="2" y="96"  width="196" height="30" rx="3" fill="var(--sunken)" stroke="var(--rare)" stroke-width="1.5"/>
+      <rect x="2" y="136" width="196" height="30" rx="3" fill="var(--sunken)" stroke="var(--rare)" stroke-width="1.5"/>
+    </g>
+    <g fill="var(--ink)">
+      <text x="12" y="36">Object<tspan fill="var(--ink-3)" font-size="10">  5</tspan></text>
+      <text x="12" y="76">Region<tspan fill="var(--ink-3)" font-size="10">  16</tspan></text>
+      <text x="12" y="116">ScriptRegion<tspan fill="var(--ink-3)" font-size="10">  55</tspan></text>
+      <text x="12" y="156">Frame<tspan fill="var(--ink-3)" font-size="10">  128</tspan></text>
+    </g>
+    <g stroke="var(--ink-3)" stroke-width="1" fill="none">
+      <line x1="100" y1="46" x2="100" y2="56"/>
+      <line x1="100" y1="86" x2="100" y2="96"/>
+      <line x1="100" y1="126" x2="100" y2="136"/>
+    </g>
+    <text x="12" y="186" fill="var(--ink-3)" font-size="10">SetPoint · SetSize live on</text>
+    <text x="12" y="200" fill="var(--ink-3)" font-size="10">ScriptRegionResizing, not Frame</text>
+
+    <!-- leaves -->
+    <g>
+      <rect x="250" y="8"   width="214" height="28" rx="3" fill="var(--surface)" stroke="var(--epic)"/>
+      <rect x="250" y="44"  width="214" height="28" rx="3" fill="var(--surface)" stroke="var(--epic)"/>
+      <rect x="250" y="80"  width="214" height="28" rx="3" fill="var(--surface)" stroke="var(--epic)"/>
+      <rect x="250" y="116" width="214" height="28" rx="3" fill="var(--surface)" stroke="var(--epic)"/>
+      <rect x="250" y="152" width="214" height="28" rx="3" fill="var(--surface)" stroke="var(--epic)"/>
+      <rect x="250" y="188" width="214" height="28" rx="3" fill="var(--surface)" stroke="var(--epic)"/>
+      <rect x="250" y="224" width="214" height="28" rx="3" fill="var(--surface)" stroke="var(--legendary)"/>
+      <rect x="250" y="260" width="214" height="28" rx="3" fill="var(--surface)" stroke="var(--legendary)"/>
+    </g>
+    <g fill="var(--ink)" font-size="10.5">
+      <text x="260" y="26">Button<tspan fill="var(--ink-3)">      42</tspan></text>
+      <text x="260" y="62">CheckButton<tspan fill="var(--ink-3)"> 6</tspan></text>
+      <text x="260" y="98">Slider<tspan fill="var(--ink-3)">      19</tspan></text>
+      <text x="260" y="134">EditBox<tspan fill="var(--ink-3)">     79</tspan></text>
+      <text x="260" y="170">ScrollFrame<tspan fill="var(--ink-3)"> 9</tspan></text>
+      <text x="260" y="206">StatusBar<tspan fill="var(--ink-3)">   28</tspan></text>
+      <text x="260" y="242">FontString<tspan fill="var(--ink-3)">  57</tspan></text>
+      <text x="260" y="278">Texture<tspan fill="var(--ink-3)">     4</tspan></text>
+    </g>
+    <path d="M198 151 L224 151 L224 22 L246 22" stroke="var(--ink-3)" fill="none" stroke-width="1"/>
+    <path d="M224 151 L224 58 L246 58"  stroke="var(--ink-3)" fill="none" stroke-width="1"/>
+    <path d="M224 151 L224 94 L246 94"  stroke="var(--ink-3)" fill="none" stroke-width="1"/>
+    <path d="M224 151 L224 130 L246 130" stroke="var(--ink-3)" fill="none" stroke-width="1"/>
+    <path d="M224 151 L224 166 L246 166" stroke="var(--ink-3)" fill="none" stroke-width="1"/>
+    <path d="M224 151 L224 202 L246 202" stroke="var(--ink-3)" fill="none" stroke-width="1"/>
+    <path d="M224 151 L224 238 L246 238" stroke="var(--ink-3)" fill="none" stroke-width="1"/>
+    <path d="M224 151 L224 274 L246 274" stroke="var(--ink-3)" fill="none" stroke-width="1"/>
+
+    <g fill="var(--ink-3)" font-size="10">
+      <text x="486" y="26">CreateFrame types</text>
+      <text x="486" y="42">purple: you make them</text>
+      <text x="486" y="58">with CreateFrame</text>
+      <text x="486" y="248">orange: created from</text>
+      <text x="486" y="264">a frame, with</text>
+      <text x="486" y="280">CreateFontString /</text>
+      <text x="486" y="296">CreateTexture</text>
+    </g>
+  </g>
+</svg>
+<figcaption>Numbers are the documented methods in each <code>Simple*API.md</code> file. A
+<code>CheckButton</code> has 6 of its own and every one of Button's 42 besides.</figcaption>
+</figure>
+</section>
+
+<section id="panel">
+<h2>3 · A panel</h2>
+<p>Everything below is drawn with <code>CreateTexture</code> and <code>SetColorTexture</code>
+instead of Blizzard art. That means no texture paths to guess and no templates to inherit — it works
+on any client, and you can recolour it by changing four numbers.</p>
+
+<pre><code><span class="kw">local</span> PAD = <span class="str">12</span>
+
+<span class="cmt">-- Draw order is BACKGROUND &lt; BORDER &lt; ARTWORK &lt; OVERLAY, so a "border" is</span>
+<span class="cmt">-- just a slightly bigger rectangle one layer down.</span>
+<span class="kw">local function</span> <span class="fn">paintBox</span>(frame, inset, edge, fill)
+    <span class="kw">local</span> e = frame:<span class="fn">CreateTexture</span>(<span class="kw">nil</span>, <span class="str">"BACKGROUND"</span>)
+    e:<span class="fn">SetPoint</span>(<span class="str">"TOPLEFT"</span>, -inset, inset)
+    e:<span class="fn">SetPoint</span>(<span class="str">"BOTTOMRIGHT"</span>, inset, -inset)
+    e:<span class="fn">SetColorTexture</span>(<span class="fn">unpack</span>(edge))
+
+    <span class="kw">local</span> f = frame:<span class="fn">CreateTexture</span>(<span class="kw">nil</span>, <span class="str">"BORDER"</span>)
+    f:<span class="fn">SetAllPoints</span>()
+    f:<span class="fn">SetColorTexture</span>(<span class="fn">unpack</span>(fill))
+<span class="kw">end</span>
+
+<span class="kw">function</span> Widgets.<span class="fn">Panel</span>(name, title, width, height)
+    <span class="kw">local</span> f = <span class="fn">CreateFrame</span>(<span class="str">"Frame"</span>, name, UIParent)
+    f:<span class="fn">SetSize</span>(width, height)
+    f:<span class="fn">SetPoint</span>(<span class="str">"CENTER"</span>)
+    f:<span class="fn">SetFrameStrata</span>(<span class="str">"DIALOG"</span>)
+    f:<span class="fn">SetMovable</span>(<span class="kw">true</span>)
+    f:<span class="fn">EnableMouse</span>(<span class="kw">true</span>)
+    f:<span class="fn">SetClampedToScreen</span>(<span class="kw">true</span>)
+    f:<span class="fn">RegisterForDrag</span>(<span class="str">"LeftButton"</span>)
+    f:<span class="fn">SetScript</span>(<span class="str">"OnDragStart"</span>, f.StartMoving)
+    f:<span class="fn">SetScript</span>(<span class="str">"OnDragStop"</span>, f.StopMovingOrSizing)
+
+    <span class="fn">paintBox</span>(f, <span class="str">1</span>, {<span class="str">0.35</span>,<span class="str">0.35</span>,<span class="str">0.45</span>,<span class="str">1</span>}, {<span class="str">0.05</span>,<span class="str">0.05</span>,<span class="str">0.07</span>,<span class="str">0.95</span>})
+
+    f.title = f:<span class="fn">CreateFontString</span>(<span class="kw">nil</span>, <span class="str">"OVERLAY"</span>, <span class="str">"GameFontNormal"</span>)
+    f.title:<span class="fn">SetPoint</span>(<span class="str">"TOPLEFT"</span>, PAD, -PAD)
+    f.title:<span class="fn">SetText</span>(title)
+    <span class="kw">return</span> f
+<span class="kw">end</span></code></pre>
+
+<h3>Stacking rows</h3>
+<p>Hand-anchoring every control to the one above it is where panels rot. One tiny layout object
+fixes it, and it is the piece you will reuse most.</p>
+
+<pre><code><span class="kw">function</span> Widgets.<span class="fn">Layout</span>(panel, startY)
+    <span class="kw">return</span> {
+        y = startY <span class="kw">or</span> -(PAD + <span class="str">22</span>),
+        Add = <span class="kw">function</span>(self, widget, height)
+            widget:<span class="fn">SetPoint</span>(<span class="str">"TOPLEFT"</span>, panel, <span class="str">"TOPLEFT"</span>, PAD, self.y)
+            self.y = self.y - (height <span class="kw">or</span> widget:<span class="fn">GetHeight</span>()) - PAD
+            <span class="kw">return</span> widget
+        <span class="kw">end</span>,
+    }
+<span class="kw">end</span></code></pre>
+</section>
+
+<section id="controls">
+<h2>4 · Controls</h2>
+
+<h3>Checkbox</h3>
+<p>A <code>CheckButton</code> keeps its own state. <code>SetCheckedTexture</code> takes a
+<code>TextureAsset</code>, and a texture object counts — so you never need an art path.</p>
+<pre><code><span class="kw">function</span> Widgets.<span class="fn">CheckBox</span>(parent, labelText, onChange)
+    <span class="kw">local</span> box = <span class="fn">CreateFrame</span>(<span class="str">"CheckButton"</span>, <span class="kw">nil</span>, parent)
+    box:<span class="fn">SetSize</span>(<span class="str">20</span>, <span class="str">20</span>)
+    <span class="fn">paintBox</span>(box, <span class="str">1</span>, {<span class="str">0.35</span>,<span class="str">0.35</span>,<span class="str">0.45</span>,<span class="str">1</span>}, {<span class="str">0.10</span>,<span class="str">0.10</span>,<span class="str">0.13</span>,<span class="str">1</span>})
+
+    <span class="kw">local</span> tick = box:<span class="fn">CreateTexture</span>(<span class="kw">nil</span>, <span class="str">"ARTWORK"</span>)
+    tick:<span class="fn">SetPoint</span>(<span class="str">"TOPLEFT"</span>, <span class="str">4</span>, -<span class="str">4</span>)
+    tick:<span class="fn">SetPoint</span>(<span class="str">"BOTTOMRIGHT"</span>, -<span class="str">4</span>, <span class="str">4</span>)
+    tick:<span class="fn">SetColorTexture</span>(<span class="str">0.35</span>, <span class="str">0.75</span>, <span class="str">1</span>, <span class="str">1</span>)
+    box:<span class="fn">SetCheckedTexture</span>(tick)
+
+    box:<span class="fn">SetScript</span>(<span class="str">"OnClick"</span>, <span class="kw">function</span>(self)
+        onChange(self:<span class="fn">GetChecked</span>() <span class="kw">and true or false</span>)
+    <span class="kw">end</span>)
+    <span class="kw">return</span> box
+<span class="kw">end</span></code></pre>
+
+<h3>Slider</h3>
+<p>A Slider needs three things or it will not behave: an orientation, a min/max, and a thumb
+texture. <code>SetObeyStepOnDrag(true)</code> is what makes dragging snap to the step.</p>
+<pre><code><span class="kw">local</span> slider = <span class="fn">CreateFrame</span>(<span class="str">"Slider"</span>, <span class="kw">nil</span>, holder)
+slider:<span class="fn">SetOrientation</span>(<span class="str">"HORIZONTAL"</span>)
+slider:<span class="fn">SetMinMaxValues</span>(<span class="str">0</span>, <span class="str">100</span>)
+slider:<span class="fn">SetValueStep</span>(<span class="str">5</span>)
+slider:<span class="fn">SetObeyStepOnDrag</span>(<span class="kw">true</span>)
+
+<span class="kw">local</span> thumb = slider:<span class="fn">CreateTexture</span>(<span class="kw">nil</span>, <span class="str">"ARTWORK"</span>)
+thumb:<span class="fn">SetSize</span>(<span class="str">10</span>, <span class="str">16</span>)
+thumb:<span class="fn">SetColorTexture</span>(<span class="str">0.35</span>, <span class="str">0.75</span>, <span class="str">1</span>, <span class="str">1</span>)
+slider:<span class="fn">SetThumbTexture</span>(thumb)
+
+slider:<span class="fn">SetScript</span>(<span class="str">"OnValueChanged"</span>, <span class="kw">function</span>(self, value)
+    readout:<span class="fn">SetText</span>((<span class="str">"%d"</span>):<span class="fn">format</span>(value))
+    onChange(value)
+<span class="kw">end</span>)</code></pre>
+
+<h3>Text field</h3>
+<p><code>EditBox</code> is the largest widget in the API — 79 methods. Four of them matter on day
+one, and the two escape scripts are not optional: without them the box traps your keyboard.</p>
+<pre><code><span class="kw">local</span> box = <span class="fn">CreateFrame</span>(<span class="str">"EditBox"</span>, <span class="kw">nil</span>, holder)
+box:<span class="fn">SetAutoFocus</span>(<span class="kw">false</span>)          <span class="cmt">-- or it steals focus the moment it appears</span>
+box:<span class="fn">SetFontObject</span>(<span class="str">"GameFontHighlight"</span>)
+box:<span class="fn">SetTextInsets</span>(<span class="str">6</span>, <span class="str">6</span>, <span class="str">0</span>, <span class="str">0</span>)
+box:<span class="fn">SetMaxLetters</span>(<span class="str">60</span>)
+
+box:<span class="fn">SetScript</span>(<span class="str">"OnEnterPressed"</span>, <span class="kw">function</span>(self)
+    self:<span class="fn">ClearFocus</span>()
+    onCommit(self:<span class="fn">GetText</span>())
+<span class="kw">end</span>)
+box:<span class="fn">SetScript</span>(<span class="str">"OnEscapePressed"</span>, <span class="kw">function</span>(self) self:<span class="fn">ClearFocus</span>() <span class="kw">end</span>)</code></pre>
+
+<h3>Scrolling list</h3>
+<p>A <code>ScrollFrame</code> is a window onto a taller child frame. You move the window, not the
+content. Reuse the FontStrings instead of creating new ones — that is the difference between a list
+that scrolls and one that stutters.</p>
+<pre><code><span class="kw">local</span> scroll = <span class="fn">CreateFrame</span>(<span class="str">"ScrollFrame"</span>, <span class="kw">nil</span>, parent)
+<span class="kw">local</span> content = <span class="fn">CreateFrame</span>(<span class="str">"Frame"</span>, <span class="kw">nil</span>, scroll)
+content:<span class="fn">SetSize</span>(width, height)
+scroll:<span class="fn">SetScrollChild</span>(content)
+
+scroll:<span class="fn">EnableMouseWheel</span>(<span class="kw">true</span>)
+scroll:<span class="fn">SetScript</span>(<span class="str">"OnMouseWheel"</span>, <span class="kw">function</span>(self, delta)
+    <span class="kw">local</span> range = self:<span class="fn">GetVerticalScrollRange</span>()
+    <span class="kw">local</span> target = self:<span class="fn">GetVerticalScroll</span>() - delta * <span class="str">16</span>
+    <span class="kw">if</span> target &lt; <span class="str">0</span> <span class="kw">then</span> target = <span class="str">0</span> <span class="kw">elseif</span> target &gt; range <span class="kw">then</span> target = range <span class="kw">end</span>
+    self:<span class="fn">SetVerticalScroll</span>(target)
+<span class="kw">end</span>)</code></pre>
+</section>
+
+<section id="db">
+<h2>5 · Saving what the user did</h2>
+<p>There is no save function. You declare a global in the <code>.toc</code>, the client hands it
+back at <code>ADDON_LOADED</code>, and writes whatever is in it at logout. That is the entire
+mechanism.</p>
+
+<pre><code><span class="cmt">-- MyAddon.toc</span>
+<span class="cmt">## SavedVariables: MyAddonDB</span></code></pre>
+
+<p>New settings appear as your addon grows, so fill in what is missing rather than overwriting what
+the user chose. This recursive default-filler is the one you will paste into every addon you write:</p>
+
+<pre><code><span class="kw">local</span> DEFAULTS = {
+    enabled   = <span class="kw">true</span>,
+    threshold = <span class="str">40</span>,
+    label     = <span class="str">"my first addon"</span>,
+    history   = {},
+}
+
+<span class="kw">local function</span> <span class="fn">applyDefaults</span>(target, defaults)
+    <span class="kw">for</span> key, value <span class="kw">in</span> <span class="fn">pairs</span>(defaults) <span class="kw">do</span>
+        <span class="kw">if</span> <span class="fn">type</span>(value) == <span class="str">"table"</span> <span class="kw">then</span>
+            target[key] = target[key] <span class="kw">or</span> {}
+            <span class="fn">applyDefaults</span>(target[key], value)
+        <span class="kw">elseif</span> target[key] == <span class="kw">nil then</span>
+            target[key] = value
+        <span class="kw">end</span>
+    <span class="kw">end</span>
+<span class="kw">end</span></code></pre>
+
+<div class="note epic"><p><b>Two traps, both of which will bite you.</b></p>
+<p><code>pairs()</code> skips <code>nil</code> values, so a default written as
+<code>foo = nil</code> does nothing at all — it is a comment with extra steps.</p>
+<p>And migrations must run <em>before</em> <code>applyDefaults</code>, normalisation
+<em>after</em>. Read a setting before its default exists and you get
+<code>attempt to compare nil with number</code>.</p></div>
+
+<p>Wiring a control to the database is then two lines — read on build, write on change:</p>
+<pre><code>f.check = layout:<span class="fn">Add</span>(Widgets.<span class="fn">CheckBox</span>(f, <span class="str">"Enabled"</span>, <span class="kw">function</span>(checked)
+    db.enabled = checked          <span class="cmt">-- write</span>
+<span class="kw">end</span>), <span class="str">20</span>)
+f.check:<span class="fn">SetChecked</span>(db.enabled)   <span class="cmt">-- read</span></code></pre>
+</section>
+
+<section id="libs">
+<h2>Libraries</h2>
+<div class="note"><p><b>Not in the reference.</b> Everything else on this page is checked against
+Blizzard's generated documentation. Libraries are community code and appear in none of it — treat
+the names below as a map of the territory and check each project's own docs for current versions.</p></div>
+
+<p>A library is just Lua files you ship inside your own folder. What makes them libraries is
+<strong>LibStub</strong>, a tiny version registry: each library registers under a name and a
+revision, and the highest revision loaded wins. That is why five addons can ship five copies of the
+same library without fighting.</p>
+
+<pre><code><span class="kw">local</span> AceGUI = <span class="fn">LibStub</span>(<span class="str">"AceGUI-3.0"</span>)
+<span class="kw">local</span> LSM    = <span class="fn">LibStub</span>(<span class="str">"LibSharedMedia-3.0"</span>, <span class="kw">true</span>)  <span class="cmt">-- true = do not error if absent</span></code></pre>
+
+<div class="tablewrap"><table>
+<tr><th>Library</th><th>What you reach for it for</th></tr>
+<tr><td><code>LibStub</code></td><td>The registry everything else is built on. Ship it first.</td></tr>
+<tr><td><code>AceAddon-3.0</code></td><td>Addon object with <code>OnInitialize</code> / <code>OnEnable</code>, plus modules.</td></tr>
+<tr><td><code>AceDB-3.0</code></td><td>SavedVariables with profiles, defaults and per-character scopes. Replaces the hand-rolled defaults above once an addon has real settings.</td></tr>
+<tr><td><code>AceConfig-3.0</code></td><td>Describe options as a table; get an options panel and slash commands out.</td></tr>
+<tr><td><code>AceEvent-3.0</code></td><td>Event registration without owning a frame.</td></tr>
+<tr><td><code>AceGUI-3.0</code></td><td>Widget toolkit, if you would rather not write section 4 yourself.</td></tr>
+<tr><td><code>LibSharedMedia-3.0</code></td><td>Shared pool of fonts, textures and sounds across addons.</td></tr>
+<tr><td><code>LibDataBroker-1.1</code></td><td>Publish a data feed that any display addon can show.</td></tr>
+<tr><td><code>LibDBIcon-1.0</code></td><td>Puts a LibDataBroker feed on the minimap.</td></tr>
+</table></div>
+
+<h3>Referencing them in the .toc</h3>
+<p>Two ways, and the difference matters.</p>
+
+<h4>Embedded — the common case</h4>
+<p>The library lives in your folder and loads before your code. Nothing external is required, so
+your addon cannot be broken by a user deleting something else.</p>
+<pre><code><span class="cmt">## Interface: 16001</span>
+<span class="cmt">## Title: MyAddon</span>
+<span class="cmt">## SavedVariables: MyAddonDB</span>
+
+Libs\LibStub\LibStub.lua
+Libs\AceAddon-3.0\AceAddon-3.0.xml
+Core.lua</code></pre>
+<p>Ace packages ship an <code>.xml</code> that pulls in their own files, which is why you see
+<code>.xml</code> entries in a <code>.toc</code> that is otherwise all Lua. Many projects collect
+these into a single <code>embeds.xml</code> and list that one line instead.</p>
+
+<h4>External — when the library is its own addon</h4>
+<pre><code><span class="cmt">## Dependencies: Ace3</span>
+<span class="cmt">## OptionalDeps: LibSharedMedia-3.0</span></code></pre>
+<p><code>Dependencies</code> means your addon will not load at all without it.
+<code>OptionalDeps</code> only guarantees load <em>order</em> — the other addon loads first if it is
+installed, and your code must cope when it is not. That is what the second argument to
+<code>LibStub</code> is for.</p>
+</section>
+
+<section id="secret">
+<h2>Secret values</h2>
+<p>This is the part of the API that is specific to this era, and the part that breaks addons ported
+from older clients. Some functions return <strong>secret values</strong>: you can hold one and pass
+it on, but you cannot look at it. Comparisons, arithmetic, string operations,
+<code>tostring</code> and using one as a table key all fail or throw.</p>
+
+<div class="tablewrap"><table>
+<tr><th>Flag on a function</th><th>What it means for you</th></tr>
+<tr><td><span class="pill e">SecretValue</span></td><td>This return may be secret. Guard it with <code>issecretvalue(v)</code> before you touch it.</td></tr>
+<tr><td><span class="pill e">SecretReturns</span></td><td>All returns may be secret.</td></tr>
+<tr><td><span class="pill e">SecretWhenInCombat</span></td><td>Readable out of combat, secret in it. Same pattern for PvP, restricted maps, auras, cooldowns.</td></tr>
+<tr><td><span class="pill l">IsProtectedFunction</span></td><td>Cannot be called from addon code while tainted or in combat.</td></tr>
+<tr><td><span class="pill l">HasRestrictions</span></td><td>There are conditions. The call can succeed and still do nothing.</td></tr>
+<tr><td><span class="pill u">SecretArguments=AllowedWhenTainted</span></td><td>You may pass a secret straight into this one — this is how you display a value you cannot read.</td></tr>
+<tr><td><span class="pill e">Environment: SecureOnly</span></td><td>Not available to addons at all.</td></tr>
+</table></div>
+
+<pre><code><span class="kw">if</span> <span class="fn">issecretvalue</span>(hp) <span class="kw">then</span>
+    bar:<span class="fn">SetValue</span>(hp)                <span class="cmt">-- widgets accept secrets</span>
+<span class="kw">else</span>
+    text:<span class="fn">SetText</span>((<span class="str">"%d%%"</span>):<span class="fn">format</span>(hp / maxHp * <span class="str">100</span>))
+<span class="kw">end</span></code></pre>
+
+<div class="note epic"><p><b>The design rule.</b> Display secrets, do not compute on them. Status
+bars, cooldown frames and the text-binding APIs all take secret input directly. Building addon
+logic — decisions, rotation hints, alerts — on a value the client has made secret is exactly what
+the restrictions exist to prevent, so it will not work no matter how you approach it.</p></div>
+</section>
+
+<section id="lookup">
+<h2>Looking things up</h2>
+<p>The habit that matters more than anything on this page: never guess an API. Every
+<code>C_</code> function, widget method and event is written down. The quickest way in is the
+<a href="reference.html">API reference</a>: fuzzy search across every system, function, widget
+method, event, enum and structure, right in the browser. Four more ways in:</p>
+
+<div class="tablewrap"><table>
+<tr><th>You have</th><th>Do this</th></tr>
+<tr><td>A function name</td><td><code>grep -rn "### FunctionName" references/api/</code></td></tr>
+<tr><td>An event name</td><td><code>grep "^EVENT_NAME" references/EVENTS.tsv</code> → open the file it names</td></tr>
+<tr><td>A namespace</td><td>Look it up in <code>references/INDEX.md</code></td></tr>
+<tr><td>A widget method</td><td>It is in one of the 40 <code>Simple*API.md</code> files</td></tr>
+</table></div>
+
+<h4>In the game</h4>
+<div class="tablewrap"><table>
+<tr><td><code>/api</code></td><td>The in-game browser, same source data as the files</td></tr>
+<tr><td><code>/dump expr</code></td><td>Inspect any value</td></tr>
+<tr><td><code>/etrace</code></td><td>Watch events fire live — the fastest way to find the right event</td></tr>
+<tr><td><code>/fstack</code></td><td>Name the frames under your cursor</td></tr>
+<tr><td><code>/console scriptErrors 1</code></td><td>Show Lua errors. Off by default, which turns a crash into "nothing happened"</td></tr>
+</table></div>
+
+<div class="note rare"><p><b>When the reference is not enough.</b> Blizzard's own UI code — FrameXML,
+mixins, and templates like <code>UIPanelButtonTemplate</code> and
+<code>ScrollBoxListLinearView</code> — is not generated documentation and is not in the reference.
+Clone it and grep:</p>
+<pre style="margin:10px 0 0"><code>git clone --depth 1 -b forever --filter=blob:none \
+  https://github.com/Gethe/wow-ui-source</code></pre></div>
+</section>
+
+</main>
+</div>
+
+<footer>
+  <div class="wrap">
+    Counts, signatures and flags taken from <code>Blizzard_APIDocumentationGenerated</code>,
+    branch <code>forever</code> of <code>Gethe/wow-ui-source</code> — build 1.60.1.69913,
+    commit 70ef1b2, 18 September 2026. Library names are community projects and are not covered by
+    that source. Working code for every widget on this page is in the
+    <code>UiKitDemo</code> addon: <code>/uikit</code> opens the panel.
+  </div>
+</footer>

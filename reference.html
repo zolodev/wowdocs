@@ -1,0 +1,769 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+/* ── Tokens: same as the handbook (index.html) ── */
+:root{
+  --ground:#f2f4f8; --surface:#ffffff; --sunken:#e8ebf2; --code:#eceff6;
+  --ink:#141821; --ink-2:#464e60; --ink-3:#798296;
+  --rule:#d2d8e4; --rule-soft:#e2e7f0;
+  --rare:#0064c8; --epic:#8b27d8; --legendary:#c25700; --uncommon:#157f36;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --body:"Source Sans 3",system-ui,-apple-system,Segoe UI,sans-serif;
+  --display:"Archivo","Source Sans 3",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0d1016; --surface:#151a23; --sunken:#1c222d; --code:#0f141c;
+    --ink:#e9ecf3; --ink-2:#a6aebf; --ink-3:#6d7689;
+    --rule:#262d3a; --rule-soft:#1d232e;
+    --rare:#4ea6ff; --epic:#c184f5; --legendary:#ff9b45; --uncommon:#4ecf7b;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0d1016; --surface:#151a23; --sunken:#1c222d; --code:#0f141c;
+  --ink:#e9ecf3; --ink-2:#a6aebf; --ink-3:#6d7689;
+  --rule:#262d3a; --rule-soft:#1d232e;
+  --rare:#4ea6ff; --epic:#c184f5; --legendary:#ff9b45; --uncommon:#4ecf7b;
+}
+
+*{box-sizing:border-box}
+body{margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+.wrap{max-width:1140px; margin:0 auto; padding-inline:16px}
+a{color:var(--rare)}
+code{font-family:var(--mono); font-size:.87em; background:var(--code); padding:1px 5px; border-radius:3px}
+
+/* ── Masthead ── */
+header.top{border-bottom:1px solid var(--rule); background:var(--surface)}
+.masthead{padding-block:28px 22px; display:grid; gap:12px}
+.eyebrow{font-family:var(--mono); font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3)}
+.eyebrow a{color:inherit}
+h1{font-family:var(--display); font-weight:800; font-size:clamp(30px,5vw,46px);
+  line-height:1.05; letter-spacing:-.025em; margin:0}
+h1 em{font-style:normal; color:var(--rare)}
+.lede{max-width:70ch; color:var(--ink-2); margin:0}
+
+/* ── Search bar ── */
+.searchbar{position:sticky; top:0; z-index:5; background:var(--ground);
+  border-bottom:1px solid var(--rule); padding-block:14px 12px}
+.searchrow{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+#q{flex:1 1 320px; min-width:0; font:inherit; font-family:var(--mono); font-size:15px;
+  padding:10px 14px; border:1px solid var(--rule); border-radius:3px;
+  background:var(--surface); color:var(--ink)}
+#q:focus{outline:2px solid var(--rare); outline-offset:-1px}
+select{font:inherit; font-size:14px}
+select{padding:9px 10px; border:1px solid var(--rule); border-radius:3px; background:var(--surface);
+  color:var(--ink); max-width:100%}
+.chips{display:flex; gap:6px; flex-wrap:wrap; margin-top:10px}
+.chip{font-family:var(--mono); font-size:12px; padding:4px 10px; border-radius:2px; cursor:pointer;
+  border:1px solid var(--rule); background:var(--surface); color:var(--ink-2)}
+.chip b{font-weight:500; color:var(--ink-3); margin-left:4px}
+.chip[aria-pressed="true"]{border-color:var(--rare); color:var(--rare); background:var(--sunken)}
+.chips.tags{margin-top:6px}
+.chips.tags::before{content:"Tags"; font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-3); align-self:center; margin-right:4px}
+.chip.tag{border-style:dashed}
+.chip.tag[aria-pressed="true"]{border-style:solid; border-color:var(--epic); color:var(--epic)}
+.rowtags{grid-column:1 / -1; display:flex; gap:4px; flex-wrap:wrap}
+.tagpill{font-family:var(--mono); font-size:10.5px; padding:0 6px; border-radius:2px;
+  background:var(--sunken); color:var(--ink-2); cursor:pointer}
+.tagpill.ui{color:var(--epic)}
+.status{font-family:var(--mono); font-size:12px; color:var(--ink-3); margin-top:10px}
+
+/* ── Results ── */
+main{padding-block:18px 64px}
+.results{list-style:none; margin:0; padding:0; border:1px solid var(--rule); border-radius:3px;
+  background:var(--surface)}
+.results:empty{display:none}
+.row{border-bottom:1px solid var(--rule-soft)}
+.row:last-child{border-bottom:0}
+.rowhead{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:4px 14px; width:100%;
+  text-align:left; padding:10px 14px; border:0; background:none; color:inherit; font:inherit; cursor:pointer}
+.rowhead:hover{background:var(--sunken)}
+.rowhead:focus-visible{outline:2px solid var(--rare); outline-offset:-2px}
+.name{font-family:var(--mono); font-weight:500; font-size:14.5px; overflow-wrap:anywhere}
+.name .ns{color:var(--ink-3); font-weight:400}
+.sub{grid-column:1 / -1; font-family:var(--mono); font-size:12.5px; color:var(--ink-3);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.kind{font-family:var(--mono); font-size:11px; padding:1px 7px; border-radius:2px;
+  border:1px solid currentColor; letter-spacing:.03em; white-space:nowrap; align-self:start}
+.k-function{color:var(--rare)} .k-method{color:var(--uncommon)} .k-event{color:var(--legendary)}
+.k-enum,.k-struct,.k-const,.k-callback{color:var(--epic)} .k-predicate{color:var(--ink-3)}
+
+.detail{padding:4px 14px 16px; border-top:1px dashed var(--rule-soft)}
+.detail pre{background:var(--code); border:1px solid var(--rule-soft); border-left:2px solid var(--rare);
+  border-radius:3px; padding:10px 12px; overflow-x:auto; margin:10px 0; font-family:var(--mono);
+  font-size:13px; line-height:1.55; white-space:pre}
+.detail pre code{background:none; padding:0; font-size:inherit}
+.detail p{margin:8px 0}
+.detail h4{font-family:var(--mono); font-weight:500; font-size:10.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-3); margin:14px 0 0}
+.meta{font-size:13.5px; color:var(--ink-2)}
+.meta a{cursor:pointer}
+.badges{display:flex; gap:6px; flex-wrap:wrap; margin:10px 0}
+.badge{font-family:var(--mono); font-size:11.5px; padding:2px 8px; border-radius:2px;
+  background:var(--sunken); border-left:2px solid var(--ink-3); color:var(--ink-2)}
+.badge.secret{border-left-color:var(--epic)}
+.badge.protected{border-left-color:var(--legendary)}
+.badge.requires{border-left-color:var(--rare)}
+.flagnotes{margin:6px 0 0; padding-left:18px; font-size:13.5px; color:var(--ink-2)}
+.flagnotes li{margin-bottom:3px}
+.params{border-collapse:collapse; width:100%; font-size:13.5px; margin:10px 0 0}
+.params th,.params td{text-align:left; padding:6px 10px; border-bottom:1px solid var(--rule-soft); vertical-align:top}
+.params th{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); background:var(--sunken)}
+.params td{font-family:var(--mono); font-size:12.5px; overflow-wrap:anywhere}
+.params th:first-child,.params td:first-child{width:1%; white-space:nowrap; color:var(--ink-3)}
+.tablewrap{overflow-x:auto}
+.typelink{cursor:pointer}
+[hidden]{display:none!important}
+.more{display:block; margin:14px auto 0; font:inherit; font-size:14px; padding:8px 18px; cursor:pointer;
+  border:1px solid var(--rule); border-radius:3px; background:var(--surface); color:var(--rare)}
+
+/* ── Browse (empty search) ── */
+.browse h2{font-family:var(--display); font-size:21px; margin:26px 0 10px; letter-spacing:-.01em}
+.browse h2:first-child{margin-top:4px}
+.browse p{color:var(--ink-2); margin:0 0 12px; font-size:14.5px}
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:6px}
+.sys{text-align:left; font:inherit; cursor:pointer; padding:7px 10px; border:1px solid var(--rule-soft);
+  border-radius:3px; background:var(--surface); color:var(--ink); min-width:0}
+.sys:hover{border-color:var(--rare)}
+.sys .n{display:block; font-family:var(--mono); font-size:13px; overflow-wrap:anywhere}
+.sys .c{display:block; font-family:var(--mono); font-size:11px; color:var(--ink-3)}
+
+footer{border-top:1px solid var(--rule); background:var(--surface); color:var(--ink-3);
+  font-size:13.5px; padding-block:22px 30px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+
+<header class="top">
+  <div class="wrap masthead">
+    <div class="eyebrow"><a href="index.html">← Addon Handbook</a> · <a href="icons.html">Icon browser</a> · <span id="build">WoW Forever</span></div>
+    <h1>API <em>reference</em></h1>
+    <p class="lede">Every system, namespace, function, widget method, event, enum and structure an
+      addon can use, with fuzzy search across all of it in your browser. Generated from Blizzard's own
+      <code>Blizzard_APIDocumentationGenerated</code>; nothing is sent anywhere.</p>
+  </div>
+</header>
+
+<div class="searchbar">
+  <div class="wrap">
+    <div class="searchrow">
+      <input id="q" type="search" placeholder="Fuzzy search everything, e.g. GetMapInfo, unit health, secret aura, UNIT_HLTH…  (press / to focus)"
+        autocomplete="off" spellcheck="false" aria-label="Search the API reference">
+      <select id="system" aria-label="Limit to one system"></select>
+    </div>
+    <div class="chips" id="kinds" role="group" aria-label="Filter by kind"></div>
+    <div class="chips tags" id="tags" role="group" aria-label="Filter by tag"></div>
+    <div class="status" id="status" aria-live="polite">Loading…</div>
+  </div>
+</div>
+
+<main class="wrap">
+  <ul class="results" id="results"></ul>
+  <button class="more" id="more" hidden>Show more</button>
+  <div class="browse" id="browse"></div>
+</main>
+
+<footer>
+  <div class="wrap" id="source"></div>
+</footer>
+
+<script src="reference-data.js"></script>
+<!-- Fuse.js 7.5.0 (https://www.fusejs.io/), kept in vendor/ so search works offline.
+     It is an ES module, so open this page through a web server, not as a file. -->
+<script type="module">
+import Fuse from "./vendor/fuse.min.mjs";
+
+(function () {
+  "use strict";
+
+  const PAGE_SIZE = 100;
+  const KINDS = [
+    ["all", "All"],
+    ["function", "Functions"],
+    ["method", "Widget methods"],
+    ["event", "Events"],
+    ["enum", "Enums"],
+    ["struct", "Structures"],
+    ["const", "Constants"],
+    ["callback", "Callbacks"],
+    ["predicate", "Predicates"],
+  ];
+  const KIND_LABEL = {
+    function: "function", method: "widget method", event: "event", enum: "enum",
+    struct: "structure", const: "constants", callback: "callback", predicate: "predicate",
+  };
+  const TYPE_KINDS = new Set(["enum", "struct", "const", "callback"]);
+
+  const data = window.REFERENCE;
+  const $ = (id) => document.getElementById(id);
+  const input = $("q"), systemSelect = $("system");
+  const results = $("results"), more = $("more"), browse = $("browse"), status = $("status");
+
+  if (!data) {
+    status.textContent = "reference-data.js is missing. Run: python3 tools/build_reference.py";
+    return;
+  }
+
+  const systems = data.systems;
+  const entries = data.entries;
+
+  // ── Search index ─────────────────────────────────────────────────────────
+  // Per entry, built once: full name (namespace.name), lower-case names, and text fields to search.
+  entries.forEach((e, i) => {
+    const sys = systems[e.s];
+    e.i = i;
+    e.full = sys.ns && (e.k === "function") ? sys.ns + "." + e.n : e.n;
+    e.lname = e.n.toLowerCase();
+    e.lfull = e.full.toLowerCase();
+    // Fields Fuse.js searches besides the names.
+    e.sysText = sys.name + " " + sys.ns;
+    e.itemsText = (e.items || []).join(" ").replace(/`/g, "");
+    e.kindText = KIND_LABEL[e.k] || e.k;
+    e.t = e.t || [];
+    e.tagText = e.t.join(" ");
+  });
+  const typeByName = new Map();
+  entries.forEach((e) => { if (TYPE_KINDS.has(e.k) && !typeByName.has(e.n)) typeByName.set(e.n, e); });
+
+  // Tags from tools/build_reference.py, most used first (UI always first).
+  const tagCounts = {};
+  entries.forEach((e) => (e.t || []).forEach((t) => { tagCounts[t] = (tagCounts[t] || 0) + 1; }));
+  const TAGS = Object.keys(tagCounts).sort((a, b) =>
+    (b === "UI") - (a === "UI") || tagCounts[b] - tagCounts[a]);
+
+  const kindCounts = {};
+  entries.forEach((e) => { kindCounts[e.k] = (kindCounts[e.k] || 0) + 1; });
+
+  // ── State (kept in the URL hash so searches can be bookmarked) ───────────
+  const state = { q: "", kind: "all", sys: "", tags: [], open: -1, shown: PAGE_SIZE };
+
+  function readHash() {
+    const params = new URLSearchParams(location.hash.slice(1));
+    state.q = params.get("q") || "";
+    state.kind = params.get("kind") || "all";
+    state.sys = params.get("sys") || "";
+    state.tags = (params.get("tags") || "").split(",").filter((t) => TAGS.includes(t));
+    const open = params.get("open");
+    state.open = open ? entries.findIndex((e) => e.full === open) : -1;
+    state.shown = PAGE_SIZE;
+  }
+
+  function writeHash() {
+    const params = new URLSearchParams();
+    if (state.q) params.set("q", state.q);
+    if (state.kind !== "all") params.set("kind", state.kind);
+    if (state.sys) params.set("sys", state.sys);
+    if (state.tags.length) params.set("tags", state.tags.join(","));
+    if (state.open >= 0) params.set("open", entries[state.open].full);
+    const hash = params.toString();
+    history.replaceState(null, "", hash ? "#" + hash : location.pathname);
+  }
+
+  // ── Fuzzy search (Fuse.js) ───────────────────────────────────────────────
+  // Searches every field of every entry. Names weigh most, then signature and
+  // system, then descriptions, parameters and flags. With extended search, words
+  // separated by spaces must all match ("unit health" = unit AND health).
+  const fuse = new Fuse(entries, {
+    keys: [
+      { name: "n", weight: 5 },
+      { name: "full", weight: 5 },
+      { name: "sig", weight: 2 },
+      { name: "sysText", weight: 2 },
+      { name: "doc", weight: 1 },
+      { name: "itemsText", weight: 1 },
+      { name: "flags", weight: 0.5 },
+      { name: "kindText", weight: 0.5 },
+      { name: "tagText", weight: 1 },
+    ],
+    includeScore: true,
+    ignoreLocation: true,   // match anywhere in a field, not just near the start
+    threshold: 0.35,        // 0 = exact only, 1 = anything; 0.35 allows typos
+    minMatchCharLength: 2,
+    useExtendedSearch: true,
+  });
+
+  function search() {
+    const query = state.q.trim();
+    const sysIndex = state.sys ? systems.findIndex((s) => s.name === state.sys) : -1;
+    const keep = (e) => (state.kind === "all" || e.k === state.kind) && (sysIndex < 0 || e.s === sysIndex) &&
+      state.tags.every((t) => e.t.includes(t));
+
+    if (!query) {
+      return entries.filter(keep).sort((a, b) => a.n.localeCompare(b.n));
+    }
+
+    // Exact and starts-with name matches first; after that Fuse.js decides.
+    const q = query.toLowerCase();
+    const boost = (e) => (e.lname === q || e.lfull === q ? 0 : e.lname.startsWith(q) || e.lfull.startsWith(q) ? 0.1 : 1);
+    return fuse.search(query)
+      .filter((r) => keep(r.item))
+      .sort((a, b) => boost(a.item) - boost(b.item) || a.score - b.score || a.item.n.length - b.item.n.length)
+      .map((r) => r.item);
+  }
+
+  // ── Rendering ────────────────────────────────────────────────────────────
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+
+  // `code` spans, and type names that are enums/structures become links.
+  function inline(text) {
+    return esc(text)
+      .replace(/`([^`]+)`/g, "<code>$1</code>")
+      .replace(/\b([A-Z][A-Za-z0-9_]+)\b/g, (word) =>
+        typeByName.has(word)
+          ? `<a class="typelink" data-open="${typeByName.get(word).i}">${word}</a>`
+          : word);
+  }
+
+  // Same rule as SECRET_VALUES in tools/build_reference.py (the "Secret" tag).
+  const SECRET_VALUES = /SecretReturns|SecretWhen|SecretIn[A-Z]|SecretOn[A-Z]|SecretPayloads/;
+
+  const FLAG_NOTES = [
+    [/^SecretArguments=AllowedWhenTainted/, "secret", "Addon code may pass secret values to it."],
+    [/^SecretArguments=AllowedWhenUntainted/, "", "Secret values may only be passed from untainted (Blizzard) code."],
+    [/^SecretArguments=NotAllowed/, "secret", "Never pass secret values to it."],
+    [/^SecretArgumentsAddAspect/, "secret", "Passing a secret value makes that aspect of the object secret."],
+    [SECRET_VALUES, "secret", "May return secret values: don't compare, do arithmetic on, or use them as table keys. Pass them straight to widget methods that accept secrets."],
+    [/^Secret/, "secret", "Related to secret values; see Secret values in the Addon Handbook."],
+    [/^IsProtectedFunction/, "protected", "Protected: can't be called from addon code in combat or while tainted."],
+    [/^Requires/, "requires", "Precondition: the call fails or returns nothing when it isn't met."],
+    [/^MayReturnNothing/, "", "Can return nothing (nil)."],
+    [/^SynchronousEvent/, "", "Fires synchronously, while the triggering code runs."],
+  ];
+
+  function renderFlags(e) {
+    const flags = [];
+    if (e.flags) {
+      // Split on commas that are not inside {…}.
+      let depth = 0, cur = "";
+      for (const ch of e.flags) {
+        if (ch === "{") depth++;
+        if (ch === "}") depth--;
+        if (ch === "," && depth === 0) { flags.push(cur.trim()); cur = ""; } else cur += ch;
+      }
+      if (cur.trim()) flags.push(cur.trim());
+    }
+    const sys = systems[e.s];
+    if (sys.env === "SecureOnly") flags.push("Environment: SecureOnly");
+    if (!flags.length) return "";
+
+    const notes = new Set();
+    const badges = flags.map((flag) => {
+      let cls = "";
+      if (flag === "Environment: SecureOnly") {
+        cls = "protected";
+        notes.add("SecureOnly: not available to addons at all.");
+      }
+      for (const [re, c, note] of FLAG_NOTES) {
+        if (re.test(flag)) { cls = cls || c; notes.add(note); break; }
+      }
+      return `<span class="badge ${cls}">${esc(flag)}</span>`;
+    });
+    return `<div class="badges">${badges.join("")}</div>` +
+      (notes.size ? `<ul class="flagnotes">${[...notes].map((n) => `<li>${esc(n)}</li>`).join("")}</ul>` : "");
+  }
+
+  function renderItems(e) {
+    if (!e.items || !e.items.length) return "";
+    const rows = e.items.map((item) => {
+      const m = item.match(/^(in|out)\s+(.*)$/);
+      const dir = m ? m[1] : (e.k === "event" ? "payload" : e.k === "enum" ? "value" : "field");
+      const rest = m ? m[2] : item;
+      return `<tr><td>${dir}</td><td>${inline(rest)}</td></tr>`;
+    });
+    return `<div class="tablewrap"><table class="params"><tr><th>Kind</th><th>Name and type</th></tr>${rows.join("")}</table></div>`;
+  }
+
+  // ── Generated examples ───────────────────────────────────────────────────
+  // Every entry gets a short example built from its signature, parameter types
+  // and flags. Values that can't be guessed keep the parameter's name, so the
+  // example reads "put your uiMapID here".
+
+  // "in `uiMapID`: number?" → { dir, name, type, optional }
+  function parseItem(item) {
+    const m = item.match(/^(?:(in|out)\s+)?`([^`]+)`:\s*(.*)$/);
+    if (!m) return null;
+    const rest = m[3];
+    const type = rest.replace(/\s*=.*$/, "").replace(/\s*\[.*$/, "").trim();
+    return {
+      dir: m[1] || "", name: m[2],
+      type: type.replace(/\?$/, "").replace(/\s*\(.*\)$/, ""),
+      optional: type.endsWith("?") || /=/.test(rest),
+    };
+  }
+  const params = (e, dir) => (e.items || []).map(parseItem).filter((p) => p && p.dir === dir);
+
+  // Returns the first value of an enum, e.g. "Enum.UIMapType.Cosmic".
+  function firstEnumValue(enumEntry) {
+    const first = enumEntry.items && parseEnumItem(enumEntry.items[0]);
+    return first ? `Enum.${enumEntry.n}.${first.key}` : `Enum.${enumEntry.n}`;
+  }
+  function parseEnumItem(item) {
+    const m = item && item.match(/^`([^`]+)`\s*=\s*(.*)$/);
+    return m ? { key: m[1], value: m[2] } : null;
+  }
+
+  const LITERALS = {
+    UnitToken: '"player"', UnitTokenPvPRestrictedForAddOns: '"player"', UnitTokenRestrictedForAddOns: '"player"',
+    bool: "true", luaIndex: "1",
+    cstring: '"text"', string: '"text"', stringView: '"text"',
+    FramePoint: '"CENTER"', DrawLayer: '"ARTWORK"',
+    WOWGUID: 'UnitGUID("player")',
+    ScriptRegion: "UIParent", SimpleFrame: "UIParent", SimpleRegion: "UIParent", ScriptObject: "UIParent",
+    LuaFunctionReference: "function() end", function: "function() end",
+    colorRGBA: "CreateColor(1, 1, 1, 1)", vector2: "CreateVector2D(0, 0)",
+    ItemLocation: "ItemLocation:CreateFromBagAndSlot(0, 1)",
+    PlayerLocation: 'PlayerLocation:CreateFromUnit("player")',
+    textureAtlas: '"atlas-name"', TextureAsset: '"Interface\\\\Icons\\\\INV_Misc_QuestionMark"',
+    FileAsset: '"Interface\\\\Icons\\\\INV_Misc_QuestionMark"', SimpleFont: "GameFontNormal",
+  };
+
+  function argValue(p) {
+    if (LITERALS[p.type]) return LITERALS[p.type];
+    if (p.type.startsWith("table")) return "{}";
+    const typeEntry = typeByName.get(p.type);
+    if (typeEntry && typeEntry.k === "enum") return firstEnumValue(typeEntry);
+    if (typeEntry && typeEntry.k === "struct") return "{}";
+    return p.name; // keep the name: the reader fills in their own value
+  }
+
+  // Receiver for widget methods: variable name plus how to get one.
+  const FRAME_TYPES = {
+    SimpleFrameAPI: "Frame", SimpleScriptRegionAPI: "Frame", SimpleScriptRegionResizingAPI: "Frame",
+    SimpleRegionAPI: "Frame", SimpleFrameScriptObjectAPI: "Frame", SimpleObjectAPI: "Frame",
+    SimpleEditBoxAPI: "EditBox", SimpleButtonAPI: "Button", SimpleCheckboxAPI: "CheckButton",
+    SimpleSliderAPI: "Slider", SimpleStatusBarAPI: "StatusBar", SimpleScrollFrameAPI: "ScrollFrame",
+    SimpleMessageFrameAPI: "MessageFrame", SimpleHTMLAPI: "SimpleHTML", SimpleColorSelectAPI: "ColorSelect",
+    SimpleModelAPI: "Model", SimpleBrowserAPI: "Browser", SimpleMovieAPI: "MovieFrame",
+  };
+  const ANIMATIONS = {
+    SimpleAnimAPI: "Alpha", SimpleAnimAlphaAPI: "Alpha", SimpleAnimScaleAPI: "Scale",
+    SimpleAnimRotationAPI: "Rotation", SimpleAnimTranslationAPI: "Translation", SimpleAnimPathAPI: "Path",
+    SimpleAnimFlipBookAPI: "FlipBook", SimpleAnimVertexColorAPI: "VertexColor",
+    SimpleAnimTextureCoordTranslationAPI: "TextureCoordTranslation",
+  };
+  const FRAME_LINE = 'local frame = CreateFrame("Frame", nil, UIParent)';
+
+  function receiver(sysName) {
+    if (FRAME_TYPES[sysName]) {
+      const t = FRAME_TYPES[sysName];
+      const v = t === "Frame" ? "frame" : t.charAt(0).toLowerCase() + t.slice(1);
+      return { v, setup: [`local ${v} = CreateFrame("${t}", nil, UIParent)`] };
+    }
+    if (sysName === "FrameAPICooldown")
+      return { v: "cooldown", setup: ['local cooldown = CreateFrame("Cooldown", nil, UIParent, "CooldownFrameTemplate")'] };
+    if (sysName === "FrameAPITooltip") return { v: "GameTooltip", setup: [] };
+    if (sysName === "SimpleFontStringAPI")
+      return { v: "text", setup: [FRAME_LINE, 'local text = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")'] };
+    if (sysName === "SimpleTextureBaseAPI" || sysName === "SimpleTextureAPI")
+      return { v: "texture", setup: [FRAME_LINE, 'local texture = frame:CreateTexture(nil, "ARTWORK")'] };
+    if (sysName === "SimpleLineAPI") return { v: "line", setup: [FRAME_LINE, "local line = frame:CreateLine()"] };
+    if (sysName === "SimpleFontAPI") return { v: "font", setup: ['local font = CreateFont("MyAddonFont")'] };
+    if (sysName === "SimpleAnimGroupAPI")
+      return { v: "group", setup: [FRAME_LINE, "local group = frame:CreateAnimationGroup()"] };
+    if (ANIMATIONS[sysName])
+      return { v: "anim", setup: [FRAME_LINE, "local group = frame:CreateAnimationGroup()",
+        `local anim = group:CreateAnimation("${ANIMATIONS[sysName]}")`] };
+    const v = "object";
+    return { v, setup: [`-- object: a ${sysName.replace(/API$/, "")} object you already have`] };
+  }
+
+  const hasFlag = (e, re) => re.test(e.flags || "");
+
+  function functionExample(e) {
+    const sys = systems[e.s];
+    const sig = e.sig || "";
+    const callee = (sig.split("=").pop().match(/^\s*([^(]+)\(/) || [])[1];
+    if (!callee) return sig;
+
+    const lines = [];
+    let target = callee.trim();
+    if (e.k === "method") {
+      const r = receiver(sys.name);
+      lines.push(...r.setup);
+      target = r.v + ":" + e.n;
+    }
+
+    // Arguments: leave out optional ones at the end.
+    const ins = params(e, "in");
+    while (ins.length && ins[ins.length - 1].optional) ins.pop();
+    const call = `${target}(${ins.map(argValue).join(", ")})`;
+
+    const outs = params(e, "out");
+    const secret = hasFlag(e, SECRET_VALUES);
+    const mayBeNil = hasFlag(e, /MayReturnNothing/) || outs.some((o) => o.optional);
+
+    let body = [];
+    if (!outs.length) {
+      body.push(call);
+    } else {
+      const names = outs.map((o) => o.name);
+      body.push(`local ${names.join(", ")} = ${call}`);
+      const first = outs[0];
+      const struct = typeByName.get(first.type);
+      if (secret) {
+        body.push(`-- ${first.name} may be a secret value: pass it straight to a widget, don't compare it or do math on it.`);
+        body.push(`if not issecretvalue(${first.name}) then print(${first.name}) end`);
+      } else if (struct && struct.k === "struct" && struct.items) {
+        const fields = struct.items.map(parseItem).filter(Boolean).slice(0, 2)
+          .map((f) => `${first.name}.${f.name}`);
+        body.push(`if ${first.name} then print(${fields.join(", ")}) end`);
+      } else if (mayBeNil && outs.length === 1) {
+        body.push(`if ${first.name} then print(${first.name}) end`);
+      } else {
+        body.push(`print(${names.slice(0, 3).join(", ")})`);
+      }
+    }
+
+    if (hasFlag(e, /IsProtectedFunction/)) {
+      body = ["-- Protected: only outside combat, and not from tainted code.", "if not InCombatLockdown() then",
+        ...body.map((l) => "    " + l), "end"];
+    }
+    const requires = (e.flags || "").match(/Requires\w+/g);
+    if (requires) body.unshift(`-- ${requires.join(", ")}: returns nothing or errors when not met.`);
+    if (sys.env === "SecureOnly") body.unshift("-- SecureOnly: addons can't call this; shown for reference.");
+    return lines.concat(body).join("\n");
+  }
+
+  function eventExample(e) {
+    const payload = params(e, "");
+    const names = payload.map((p) => p.name);
+    const unitArg = payload[0] && /^Unit/.test(payload[0].type);
+    const register = unitArg
+      ? `frame:RegisterUnitEvent("${e.n}", "player")`
+      : `frame:RegisterEvent("${e.n}")`;
+    return [
+      'local frame = CreateFrame("Frame")',
+      register,
+      `frame:SetScript("OnEvent", function(self, event${names.length ? ", " + names.join(", ") : ""})`,
+      `    print(event${names.length ? ", " + names.slice(0, 3).join(", ") : ""})`,
+      "end)",
+    ].join("\n");
+  }
+
+  // Structures: show one function that returns it, and reading its fields.
+  const returnedBy = new Map();
+  entries.forEach((e) => {
+    if (e.k !== "function" && e.k !== "method") return;
+    for (const p of params(e, "out")) {
+      if (!returnedBy.has(p.type)) returnedBy.set(p.type, { e, name: p.name });
+    }
+  });
+
+  function structExample(e) {
+    const fields = (e.items || []).map(parseItem).filter(Boolean);
+    const source = returnedBy.get(e.n);
+    const v = source ? source.name : "info";
+    const lines = source
+      ? [`local ${v} = ${source.e.full}(${params(source.e, "in").filter((p) => !p.optional).map(argValue).join(", ")})`]
+      : [`-- ${v}: a ${e.n} table`];
+    if (fields.length) lines.push(`print(${fields.slice(0, 3).map((f) => `${v}.${f.name}`).join(", ")})`);
+    return lines.join("\n");
+  }
+
+  function enumExample(e) {
+    const values = (e.items || []).map(parseEnumItem).filter(Boolean);
+    if (!values.length) return `Enum.${e.n}`;
+    const first = values[0];
+    const list = values.slice(0, 4).map((v) => `${v.key} = ${v.value}`).join(", ") + (values.length > 4 ? ", …" : "");
+    return `local value = Enum.${e.n}.${first.key}  -- ${first.value}\n-- Values: ${list}`;
+  }
+
+  function constExample(e) {
+    const first = (e.items || []).map(parseItem).find(Boolean);
+    return first ? `print(Constants.${e.n}.${first.name})` : `Constants.${e.n}`;
+  }
+
+  function makeExample(e) {
+    switch (e.k) {
+      case "function": case "method": return functionExample(e);
+      case "event": return eventExample(e);
+      case "struct": return structExample(e);
+      case "enum": return enumExample(e);
+      case "const": return constExample(e);
+      default: return "";
+    }
+  }
+
+  function renderDetail(e) {
+    const sys = systems[e.s];
+    const example = makeExample(e);
+    return `<div class="detail">
+      ${e.sig ? `<h4>Signature</h4><pre><code>${esc(e.sig)}</code></pre>` : ""}
+      ${example ? `<h4>Example</h4><pre><code>${esc(example)}</code></pre>` : ""}
+      ${e.doc ? `<p>${inline(e.doc)}</p>` : ""}
+      ${renderFlags(e)}
+      ${renderItems(e)}
+      <p class="meta">System <a data-sys="${esc(sys.name)}">${esc(sys.name)}</a>
+        ${sys.ns ? ` · namespace <code>${esc(sys.ns)}</code>` : ""}
+        · type ${esc(sys.type)} · environment ${esc(sys.env)}
+        · reference file <code>${esc(sys.file)}</code></p>
+    </div>`;
+  }
+
+  function renderTags(e) {
+    return e.t.map((t) => `<span class="tagpill${t === "UI" ? " ui" : ""}" data-tag="${esc(t)}">${esc(t)}</span>`).join("");
+  }
+
+  function renderRow(e) {
+    const sys = systems[e.s];
+    const isOpen = e.i === state.open;
+    const nsPart = e.full !== e.n ? `<span class="ns">${esc(sys.ns)}.</span>` : "";
+    const sub = e.sig || (e.k === "event" ? "event · " + sys.name : sys.name + (sys.ns ? " · " + sys.ns : ""));
+    return `<li class="row" data-i="${e.i}">
+      <button class="rowhead" aria-expanded="${isOpen}">
+        <span class="name">${nsPart}${esc(e.n)}</span>
+        <span class="kind k-${e.k}">${KIND_LABEL[e.k] || e.k}</span>
+        <span class="sub">${esc(sub)}</span>
+        ${e.t.length ? `<span class="rowtags">${renderTags(e)}</span>` : ""}
+      </button>
+      ${isOpen ? renderDetail(e) : ""}
+    </li>`;
+  }
+
+  function renderBrowse() {
+    const counts = systems.map(() => 0);
+    entries.forEach((e) => { counts[e.s]++; });
+    const group = (title, text, filter) => {
+      const list = systems.map((s, i) => ({ s, i })).filter(({ s }) => filter(s));
+      return `<h2>${title} <span class="c">(${list.length})</span></h2><p>${text}</p><div class="grid">` +
+        list.map(({ s, i }) => `<button class="sys" data-sys="${esc(s.name)}">
+          <span class="n">${esc(s.ns || s.name)}</span>
+          <span class="c">${s.ns ? esc(s.name) + " · " : ""}${counts[i]} ${counts[i] === 1 ? "entry" : "entries"}</span></button>`).join("") +
+        "</div>";
+    };
+    browse.innerHTML =
+      group("Namespaces", "Systems with a <code>C_</code> namespace, e.g. <code>C_Map.GetMapInfo</code>.",
+        (s) => s.ns && s.type !== "ScriptObject") +
+      group("Widgets", "Methods on frames and regions (<code>frame:SetPoint</code>, <code>texture:SetAtlas</code>…).",
+        (s) => s.type === "ScriptObject") +
+      group("Global functions, events and tables", "Everything else: global functions like <code>UnitHealth</code>, and systems that only hold events, enums or structures.",
+        (s) => !s.ns && s.type !== "ScriptObject");
+  }
+
+  let lastMatches = [];
+
+  function render() {
+    lastMatches = search();
+    const filtering = state.q || state.kind !== "all" || state.sys || state.tags.length;
+    browse.hidden = !!filtering;
+    if (!filtering) {
+      results.innerHTML = "";
+      more.hidden = true;
+      status.textContent = `${entries.length.toLocaleString()} entries in ${systems.length} systems. Type to search, or pick a system below.`;
+      if (!browse.innerHTML) renderBrowse();
+      return;
+    }
+    const shown = lastMatches.slice(0, state.shown);
+    // Keep an open entry visible even if it's past the first page.
+    if (state.open >= 0 && !shown.includes(entries[state.open]) && lastMatches.includes(entries[state.open])) {
+      shown.unshift(entries[state.open]);
+    }
+    results.innerHTML = shown.map(renderRow).join("");
+    more.hidden = lastMatches.length <= state.shown;
+    status.textContent = lastMatches.length
+      ? `${lastMatches.length.toLocaleString()} match${lastMatches.length === 1 ? "" : "es"}` +
+        (lastMatches.length > shown.length ? `, showing ${shown.length}` : "")
+      : "No matches. Try fewer or shorter words, another kind, or fewer tags.";
+  }
+
+  function syncControls() {
+    input.value = state.q;
+    systemSelect.value = state.sys;
+    document.querySelectorAll(".chip[data-kind]").forEach((c) =>
+      c.setAttribute("aria-pressed", String(c.dataset.kind === state.kind)));
+    document.querySelectorAll(".chip[data-tag]").forEach((c) =>
+      c.setAttribute("aria-pressed", String(state.tags.includes(c.dataset.tag))));
+  }
+
+  function update() { state.shown = PAGE_SIZE; writeHash(); render(); }
+
+  // ── Controls ─────────────────────────────────────────────────────────────
+  $("kinds").innerHTML = KINDS.map(([k, label]) =>
+    `<button class="chip" data-kind="${k}" aria-pressed="false">${label}<b>${
+      (k === "all" ? entries.length : kindCounts[k] || 0).toLocaleString()}</b></button>`).join("");
+
+  $("tags").innerHTML = TAGS.map((t) =>
+    `<button class="chip tag" data-tag="${esc(t)}" aria-pressed="false">${esc(t)}<b>${
+      tagCounts[t].toLocaleString()}</b></button>`).join("");
+
+  function toggleTag(tag) {
+    state.tags = state.tags.includes(tag) ? state.tags.filter((t) => t !== tag) : [...state.tags, tag];
+    state.open = -1; syncControls(); update();
+  }
+  $("tags").addEventListener("click", (ev) => {
+    const chip = ev.target.closest(".chip[data-tag]");
+    if (chip) toggleTag(chip.dataset.tag);
+  });
+
+  systemSelect.innerHTML = `<option value="">All systems (${systems.length})</option>` +
+    [...systems].sort((a, b) => (a.ns || a.name).localeCompare(b.ns || b.name))
+      .map((s) => `<option value="${esc(s.name)}">${esc(s.ns ? s.ns + " — " + s.name : s.name)}</option>`).join("");
+
+  let typing;
+  input.addEventListener("input", () => {
+    clearTimeout(typing);
+    typing = setTimeout(() => { state.q = input.value.trim(); state.open = -1; update(); }, 120);
+  });
+  systemSelect.addEventListener("change", () => { state.sys = systemSelect.value; state.open = -1; update(); });
+  $("kinds").addEventListener("click", (ev) => {
+    const chip = ev.target.closest(".chip");
+    if (!chip) return;
+    state.kind = chip.dataset.kind; state.open = -1; syncControls(); update();
+  });
+  more.addEventListener("click", () => { state.shown += PAGE_SIZE; render(); });
+
+  function openEntry(i) {
+    const e = entries[i];
+    state.q = e.n; state.kind = "all"; state.sys = ""; state.tags = []; state.open = i;
+    syncControls(); update();
+    const row = results.querySelector(`[data-i="${i}"]`);
+    if (row) row.scrollIntoView({ block: "start" });
+  }
+
+  function openSystem(name) {
+    state.q = ""; state.kind = "all"; state.sys = name; state.tags = []; state.open = -1;
+    syncControls(); update(); window.scrollTo(0, 0);
+  }
+
+  document.addEventListener("click", (ev) => {
+    const pill = ev.target.closest(".tagpill");
+    if (pill) { ev.preventDefault(); if (!state.tags.includes(pill.dataset.tag)) toggleTag(pill.dataset.tag); return; }
+    const typeLink = ev.target.closest("[data-open]");
+    if (typeLink) { ev.preventDefault(); openEntry(Number(typeLink.dataset.open)); return; }
+    const sysLink = ev.target.closest("[data-sys]");
+    if (sysLink) { ev.preventDefault(); openSystem(sysLink.dataset.sys); return; }
+    const head = ev.target.closest(".rowhead");
+    if (head) {
+      const i = Number(head.parentElement.dataset.i);
+      state.open = state.open === i ? -1 : i;
+      writeHash(); render();
+    }
+  });
+
+  document.addEventListener("keydown", (ev) => {
+    if (ev.key === "/" && document.activeElement !== input) { ev.preventDefault(); input.focus(); input.select(); }
+    if (ev.key === "Escape" && document.activeElement === input && input.value) {
+      input.value = ""; state.q = ""; state.open = -1; update();
+    }
+  });
+
+  window.addEventListener("hashchange", () => { readHash(); syncControls(); render(); });
+
+  // ── Start ────────────────────────────────────────────────────────────────
+  const build = (data.version.find((l) => l.startsWith("Build:")) || "").replace("Build: ", "");
+  $("build").textContent = `WoW Forever · build ${build}`;
+  $("source").innerHTML = `Generated from <code>Blizzard_APIDocumentationGenerated</code>, ` +
+    data.version.map(esc).join(" · ") + `. Rebuild with <code>python3 tools/build_reference.py</code>.`;
+
+  readHash(); syncControls(); render();
+})();
+</script>

@@ -1,0 +1,3 @@
+Fuse.js 7.5.0 (https://www.fusejs.io/)
+https://cdn.jsdelivr.net/npm/fuse.js@7.5.0/dist/fuse.min.mjs
+License: Apache-2.0

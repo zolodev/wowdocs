@@ -1,0 +1,929 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Icon Browser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+/* ── Tokens: same as the handbook (index.html) ── */
+:root{
+  --ground:#f2f4f8; --surface:#ffffff; --sunken:#e8ebf2; --code:#eceff6;
+  --ink:#141821; --ink-2:#464e60; --ink-3:#798296;
+  --rule:#d2d8e4; --rule-soft:#e2e7f0;
+  --rare:#0064c8; --epic:#8b27d8; --legendary:#c25700; --uncommon:#157f36;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --body:"Source Sans 3",system-ui,-apple-system,Segoe UI,sans-serif;
+  --display:"Archivo","Source Sans 3",system-ui,sans-serif;
+  /* Changed live by the sliders. */
+  --icon:56px; --gap:14px; --maxw:1440px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0d1016; --surface:#151a23; --sunken:#1c222d; --code:#0f141c;
+    --ink:#e9ecf3; --ink-2:#a6aebf; --ink-3:#6d7689;
+    --rule:#262d3a; --rule-soft:#1d232e;
+    --rare:#4ea6ff; --epic:#c184f5; --legendary:#ff9b45; --uncommon:#4ecf7b;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0d1016; --surface:#151a23; --sunken:#1c222d; --code:#0f141c;
+  --ink:#e9ecf3; --ink-2:#a6aebf; --ink-3:#6d7689;
+  --rule:#262d3a; --rule-soft:#1d232e;
+  --rare:#4ea6ff; --epic:#c184f5; --legendary:#ff9b45; --uncommon:#4ecf7b;
+}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--body); font-size:15px; line-height:1.5; -webkit-font-smoothing:antialiased}
+a{color:var(--rare)}
+button,input,select{font:inherit; color:inherit}
+.shell{max-width:var(--maxw); margin:0 auto; padding-inline:16px}
+
+/* ── Header ── */
+header.top{border-bottom:1px solid var(--rule); background:var(--surface)}
+.masthead{padding-block:20px 16px; display:flex; flex-wrap:wrap; gap:6px 24px; align-items:baseline}
+.eyebrow{font-family:var(--mono); font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3)}
+.eyebrow a{color:inherit}
+h1{font-family:var(--display); font-weight:800; font-size:32px; letter-spacing:-.02em; margin:0}
+h1 em{font-style:normal; color:var(--rare)}
+.counts{font-family:var(--mono); font-size:12.5px; color:var(--ink-3)}
+
+/* ── Toolbar ── */
+.toolbar{position:sticky; top:0; z-index:5; background:var(--ground); border-bottom:1px solid var(--rule)}
+.toolrow{display:flex; flex-wrap:wrap; gap:10px 18px; align-items:center; padding-block:12px}
+#q{flex:1 1 280px; min-width:0; font-family:var(--mono); font-size:15px; padding:9px 13px;
+  border:1px solid var(--rule); border-radius:3px; background:var(--surface)}
+#q:focus{outline:2px solid var(--rare); outline-offset:-1px}
+select{padding:8px 10px; border:1px solid var(--rule); border-radius:3px; background:var(--surface)}
+.ctl{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--ink-2); white-space:nowrap}
+.ctl output{font-family:var(--mono); font-size:12px; color:var(--ink); min-width:4.5ch}
+.ctl input[type=range]{width:120px; accent-color:var(--rare)}
+.widthrow{padding-top:0}
+#width{flex:1 1 320px; max-width:640px; accent-color:var(--rare)}
+#widthNum{width:8ch; font-family:var(--mono); font-size:13px; padding:5px 6px; border:1px solid var(--rule);
+  border-radius:3px; background:var(--surface)}
+.chips.presets{padding:0}
+.widthrow .hint{font-size:12px; color:var(--ink-3)}
+/* Always the same height, so the toolbar never grows or shrinks when filters change. */
+.active{display:flex; flex-wrap:nowrap; gap:6px; align-items:center; height:34px; padding-bottom:8px;
+  overflow-x:auto; overflow-y:hidden; scrollbar-width:thin}
+.active .chip{flex:none}
+.active:empty::before{content:"No filters"; font-family:var(--mono); font-size:11px; color:var(--ink-3)}
+
+/* ── Overview chips ── */
+details.overview{border-bottom:1px solid var(--rule-soft); padding-block:8px}
+.grouprows{display:grid; grid-template-columns:max-content minmax(0,1fr); gap:6px 14px; padding-block:8px 4px;
+  align-items:start}
+.grouprows .cat{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:6px; white-space:nowrap}
+.grouprows .chips{padding:0}
+details.overview summary{cursor:pointer; font-family:var(--mono); font-size:11px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-3); padding-block:4px}
+.chips{display:flex; flex-wrap:wrap; gap:6px; padding-block:8px 4px}
+.chip{font-family:var(--mono); font-size:12px; padding:3px 9px; border-radius:2px; cursor:pointer;
+  border:1px solid var(--rule); background:var(--surface); color:var(--ink-2)}
+.chip b{font-weight:500; color:var(--ink-3); margin-left:4px; display:inline-block; min-width:6ch;
+  text-align:right; font-variant-numeric:tabular-nums}
+.chip[aria-pressed="true"]{border-color:var(--rare); color:var(--rare); background:var(--sunken)}
+.chip.none{opacity:.4}
+.chip.tag{border-color:var(--epic); color:var(--epic)}
+.chip.tag[aria-pressed="true"]{background:var(--sunken)}
+.chip.x::after{content:" ×"}
+
+/* ── Layout: grid + detail panel ── */
+/* The detail panel's column is always there, so the icon area keeps the same width
+   whether or not an icon is selected. */
+.layout{display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:24px; padding-block:18px 60px}
+.status{font-family:var(--mono); font-size:12.5px; color:var(--ink-3); margin-bottom:12px;
+  display:flex; flex-wrap:wrap; gap:8px 16px; align-items:center}
+.pager{display:flex; gap:6px; align-items:center}
+.pager button{padding:4px 10px; border:1px solid var(--rule); border-radius:3px; background:var(--surface); cursor:pointer}
+.pager button:disabled{opacity:.4; cursor:default}
+
+.grid{display:grid; grid-template-columns:repeat(auto-fill, calc(var(--icon) + 12px));
+  gap:var(--gap); justify-content:center; list-style:none; margin:0; padding:0}
+.cell{position:relative; padding:5px; border:1px solid transparent; border-radius:4px; background:none;
+  cursor:pointer; line-height:0; content-visibility:auto; contain-intrinsic-size:calc(var(--icon) + 12px)}
+.cell:hover{border-color:var(--rule); background:var(--surface)}
+.cell:focus-visible{outline:2px solid var(--rare); outline-offset:1px}
+.cell img{width:var(--icon); height:var(--icon); display:block; border-radius:3px}
+/* Invisible but findable with Ctrl+F: transparent text over the icon. */
+.findtext{position:absolute; inset:5px; overflow:hidden; color:transparent; font-family:var(--mono);
+  font-size:10px; line-height:1.3; text-align:left; word-break:break-all; pointer-events:none}
+.cell[aria-selected="true"]{border-color:var(--rare); background:var(--sunken);
+  box-shadow:0 0 0 1px var(--rare)}
+.cell.tagged::after{content:""; position:absolute; top:3px; right:3px; width:7px; height:7px;
+  border-radius:50%; background:var(--epic); box-shadow:0 0 0 2px var(--ground)}
+.empty{color:var(--ink-3); padding:40px 0; text-align:center}
+
+/* ── Detail panel ── */
+aside.panel{position:sticky; top:var(--toolbar-h, 120px); align-self:start; background:var(--surface);
+  border:1px solid var(--rule); border-radius:4px; padding:16px; overflow:auto;
+  max-height:calc(100vh - var(--toolbar-h, 120px) - var(--savebar-h, 56px) - 16px)}
+aside.panel.empty{background:none; border-style:dashed; color:var(--ink-3); font-size:13.5px}
+aside.panel.empty p{margin:0 0 8px}
+.panel h2{font-family:var(--display); font-size:16px; margin:0 0 8px; padding-right:32px; overflow-wrap:anywhere}
+.panel .close{position:absolute; top:10px; right:10px; width:28px; height:28px; border:1px solid var(--rule);
+  border-radius:3px; background:var(--surface); cursor:pointer; font-size:16px; line-height:1; color:var(--ink-2)}
+.panel .close:hover{color:var(--ink); border-color:var(--ink-3)}
+.panel h3{font-family:var(--mono); font-weight:500; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 6px}
+.preview{display:flex; gap:14px; align-items:flex-start}
+.preview img{width:128px; height:128px; border-radius:4px; background:var(--sunken)}
+.facts{font-family:var(--mono); font-size:12px; color:var(--ink-2); display:grid; gap:3px}
+.facts a{overflow-wrap:anywhere}
+.fname{font-family:var(--mono); font-size:13px; background:var(--code); padding:6px 8px; border-radius:3px;
+  overflow-wrap:anywhere; user-select:all}
+.taglist{display:flex; flex-wrap:wrap; gap:6px}
+.tagchip{display:inline-flex; align-items:center; gap:2px; font-family:var(--mono); font-size:12px;
+  border:1px solid var(--epic); color:var(--epic); border-radius:2px; padding:1px 2px 1px 7px}
+.tagchip.auto{border-color:var(--rule); color:var(--ink-2)}
+.tagchip.removed{border-style:dashed; color:var(--ink-3); text-decoration:line-through}
+.tagchip button{border:0; background:none; cursor:pointer; padding:0 4px; color:inherit; font-size:12px; line-height:1.4}
+.tagchip button:hover{color:var(--ink)}
+.tagchip .label{cursor:pointer}
+.tagchip input{width:12ch; font-family:var(--mono); font-size:12px; border:0; background:var(--sunken); padding:0 4px}
+.addtag{display:flex; gap:6px; margin-top:8px}
+.addtag input{flex:1; min-width:0; font-family:var(--mono); font-size:13px; padding:6px 8px;
+  border:1px solid var(--rule); border-radius:3px; background:var(--ground)}
+.btn{padding:6px 12px; border:1px solid var(--rule); border-radius:3px; background:var(--surface); cursor:pointer; font-size:13px}
+.btn:disabled{opacity:.45; cursor:not-allowed}
+.btn.primary{border-color:var(--rare); color:var(--rare)}
+.hint{font-size:12.5px; color:var(--ink-3); margin:6px 0 0}
+.thumbs{display:flex; flex-wrap:wrap; gap:4px}
+.hiderow{display:flex; gap:10px; align-items:center; margin-top:10px}
+.hiderow .hint{margin:0}
+.views{display:flex; gap:4px; margin-left:auto; align-self:center}
+.views a{font-family:var(--mono); font-size:13px; text-decoration:none; color:var(--ink-2); padding:6px 12px;
+  border:1px solid var(--rule); border-radius:3px; background:var(--surface)}
+.views a b{font-weight:500; color:var(--ink-3); margin-left:6px; font-variant-numeric:tabular-nums}
+.views a[aria-current="page"]{border-color:var(--rare); color:var(--rare); background:var(--sunken)}
+.thumbs img{width:32px; height:32px; border-radius:2px}
+
+/* ── Save bar ── */
+/* Always at the bottom of the window; the page gets matching bottom padding. */
+.savebar{position:fixed; left:0; right:0; bottom:0; z-index:6; background:var(--surface); border-top:1px solid var(--rule)}
+body{padding-bottom:var(--savebar-h, 56px)}
+.saverow{display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; padding-block:10px; font-size:13.5px}
+.saverow .msg{flex:1 1 260px; color:var(--ink-2)}
+.saverow .msg b{color:var(--legendary)}
+
+@media (max-width:900px){
+  /* Narrow screens: one column; the panel floats at the bottom while an icon is selected. */
+  .layout{grid-template-columns:minmax(0,1fr)}
+  aside.panel{position:fixed; z-index:7; left:16px; right:16px; top:auto; bottom:calc(var(--savebar-h, 56px) + 8px);
+    max-height:55vh; box-shadow:0 12px 32px -12px rgba(20,24,33,.35)}
+  aside.panel.empty{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+
+<header class="top">
+  <div class="shell masthead">
+    <div class="eyebrow"><a href="index.html">← Addon Handbook</a> · <a href="reference.html">API reference</a></div>
+    <h1>Icon <em>browser</em></h1>
+    <span class="counts" id="counts"></span>
+    <nav class="views" id="views" aria-label="Icon sets">
+      <a href="#all" data-view="all">All<b></b></a>
+      <a href="#" data-view="main">Classic &amp; Forever<b></b></a>
+      <a href="#retail" data-view="retail">Retail<b></b></a>
+      <a href="#hidden" data-view="hidden">Hidden<b></b></a>
+    </nav>
+  </div>
+</header>
+
+<div class="toolbar" id="toolbar">
+  <div class="shell">
+    <div class="toolrow">
+      <input id="q" type="search" placeholder="Fuzzy search tags and file names, e.g. bleed, sword, fire…  (press /)"
+        autocomplete="off" spellcheck="false" aria-label="Search icons">
+      <select id="show" aria-label="Which icons to show">
+        <option value="all">All icons</option>
+        <option value="tagged">Manually tagged</option>
+        <option value="untagged">Not manually tagged</option>
+      </select>
+      <label class="ctl">Size <input type="range" id="size" min="24" max="192" step="4"><output id="sizeOut"></output></label>
+      <label class="ctl">Spacing <input type="range" id="gap" min="2" max="48" step="2"><output id="gapOut"></output></label>
+      <label class="ctl">Per page
+        <select id="perPage">
+          <option value="0" id="allOption">All on one page</option>
+          <option>100</option><option>250</option><option>500</option><option>1000</option>
+          <option>2500</option><option>5000</option>
+        </select>
+      </label>
+    </div>
+    <div class="toolrow widthrow">
+      <label class="ctl" for="width">Width</label>
+      <input type="range" id="width" min="960" max="5120" step="40" aria-label="Page width">
+      <span class="ctl"><input type="number" id="widthNum" min="960" max="5120" step="10" aria-label="Page width in pixels"> px</span>
+      <span class="chips presets" id="widthPresets">
+        <button class="chip" data-width="1440">1440</button>
+        <button class="chip" data-width="1920">1920</button>
+        <button class="chip" data-width="2560">2560</button>
+        <button class="chip" data-width="3840">3840</button>
+        <button class="chip" data-width="full">Full</button>
+      </span>
+      <span class="hint">The page updates when you let go of the slider, press Enter, or pick a preset.</span>
+    </div>
+    <div class="active" id="active"></div>
+  </div>
+</div>
+
+<div class="shell">
+  <details class="overview" open>
+    <summary>Groups (automatic)</summary>
+    <div class="grouprows" id="groups"></div>
+  </details>
+  <details class="overview" id="tagOverview">
+    <summary>Your tags</summary>
+    <div class="chips" id="tags"></div>
+    <p class="hint">Click a tag to show its icons. Use the buttons in the panel to edit tags on single icons,
+      or rename / delete a tag on every icon here: <button class="btn" id="renameTag">Rename a tag…</button>
+      <button class="btn" id="deleteTag">Delete a tag…</button></p>
+  </details>
+
+  <div class="layout" id="layout">
+    <main>
+      <div class="status">
+        <span id="status">Loading…</span>
+        <span class="pager" id="pager">
+          <button id="prev" aria-label="Previous page">←</button>
+          <span id="pageInfo"></span>
+          <button id="next" aria-label="Next page">→</button>
+        </span>
+      </div>
+      <ul class="grid" id="grid" role="listbox" aria-multiselectable="true" aria-label="Icons"></ul>
+    </main>
+    <aside class="panel empty" id="panel"></aside>
+  </div>
+</div>
+
+<div class="savebar">
+  <div class="shell saverow">
+    <span class="msg" id="saveMsg"></span>
+    <button class="btn primary" id="export">Export icon-tags.jsonl</button>
+    <label class="btn" for="importFile">Import…</label>
+    <input type="file" id="importFile" accept=".jsonl,.json,.txt" hidden>
+    <button class="btn" id="discard">Discard browser changes</button>
+    <button class="btn" id="clearAll">Clear all tags…</button>
+  </div>
+</div>
+
+<script src="icons-index.js"></script>
+<!-- Fuse.js 7.5.0 (https://www.fusejs.io/), kept in vendor/. It is an ES module,
+     so open this page through a web server, not as a file. -->
+<script type="module">
+import Fuse from "./vendor/fuse.min.mjs";
+
+(async function () {
+  "use strict";
+
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+  const storage = {
+    get(key) { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } },
+    set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* private mode */ } },
+    remove(key) { try { localStorage.removeItem(key); } catch { /* private mode */ } },
+  };
+
+  const index = window.ICON_INDEX;
+  if (!index) { $("status").textContent = "icons-index.js is missing. Run: python3 tools/build_icons.py"; return; }
+
+  // ── Icons ────────────────────────────────────────────────────────────────
+  // "INV_Sword_1H_Fire02.png" → "inv sword 1h fire 02" so fuzzy search finds words.
+  const words = (file) => file.replace(/\.png$/i, "")
+    .replace(/([a-z])([A-Z])/g, "$1 $2").replace(/([A-Za-z])(\d)/g, "$1 $2")
+    .replace(/[_\-.&\]\[]+/g, " ").toLowerCase().trim();
+
+  const icons = index.icons.map(([file, bytes, w, h, groupIdx], i) => ({
+    i, file, bytes, w, h, words: words(file),
+    autoGroups: groupIdx.map((g) => index.groups[g]),
+    tags: [], removed: [], groups: [], tagGroups: [],   // filled in by applyTags()
+  }));
+  const byFile = new Map(icons.map((ic) => [ic.file, ic]));
+  const categories = index.categories || [];
+  const labels = index.labels || {};
+  // Your tags that are also group names (any case) put the icon in that group.
+  const groupByName = new Map(index.groups.map((g) => [g.toLowerCase(), g]));
+  Object.entries(labels).forEach(([g, label]) => groupByName.set(label.toLowerCase(), g)); // "Any class" → Class
+  const categoryGroups = (name) => new Set((categories.find(([n]) => n === name) || [, []])[1]);
+  const classGroups = categoryGroups("Classes"), raceGroups = categoryGroups("Races");
+  const src = (ic) => index.folder + encodeURIComponent(ic.file);
+
+  // ── Manual tags ──────────────────────────────────────────────────────────
+  // base  = site/icon-tags.jsonl (what you exported and put in the site folder)
+  // local = changes made in this browser since, kept until exported or discarded
+  // Each record: { file, tags: [...], removed: [automatic groups you removed] }
+  const LOCAL_KEY = "iconTags.local.v1";
+  const base = new Map();
+  let local = new Map(Object.entries(storage.get(LOCAL_KEY) || {}));
+
+  function parseJsonl(text) {
+    const records = [];
+    for (const line of text.split(/\r?\n/)) {
+      if (!line.trim()) continue;
+      try {
+        const r = JSON.parse(line);
+        if (r && typeof r.file === "string") {
+          records.push({ file: r.file, tags: r.tags || [], removed: r.removed || [], hidden: r.hidden === true });
+        }
+      } catch { /* skip broken line */ }
+    }
+    return records;
+  }
+
+  try {
+    const res = await fetch("icon-tags.jsonl", { cache: "no-store" });
+    if (res.ok) parseJsonl(await res.text()).forEach((r) => base.set(r.file, r));
+  } catch { /* no tag file yet */ }
+
+  const recordOf = (file) => local.get(file) || base.get(file) || { file, tags: [], removed: [], hidden: false };
+  const same = (a, b) => JSON.stringify([a.tags, a.removed, !!a.hidden]) === JSON.stringify([b.tags, b.removed, !!b.hidden]);
+
+  function applyTags(ic) {
+    const r = recordOf(ic.file);
+    ic.tags = r.tags;
+    ic.removed = r.removed;
+    ic.hidden = !!r.hidden;
+    ic.tagGroups = r.tags.map((t) => groupByName.get(t.trim().toLowerCase())).filter(Boolean);
+    if (ic.tagGroups.some((g) => classGroups.has(g) && g !== "Class")) ic.tagGroups.push("Class");
+    if (ic.tagGroups.some((g) => raceGroups.has(g) && g !== "Character")) ic.tagGroups.push("Character");
+    ic.groups = [...new Set([...ic.autoGroups.filter((g) => !r.removed.includes(g)), ...ic.tagGroups])];
+  }
+  // Browser changes that now match the file (e.g. after exporting and copying it into
+  // the site folder) aren't changes any more.
+  for (const [file, record] of local) {
+    if (same(record, base.get(file) || { file, tags: [], removed: [], hidden: false })) local.delete(file);
+  }
+  storage.set(LOCAL_KEY, Object.fromEntries(local));
+  icons.forEach(applyTags);
+
+  // Saves one icon's tags in the browser; drops the entry when it matches the file again.
+  function setRecord(ic, tags, removed, hidden = ic.hidden) {
+    const tidy = (list) => [...new Set(list.map((t) => t.trim()).filter(Boolean))];
+    const record = { file: ic.file, tags: tidy(tags), removed: tidy(removed), hidden: !!hidden };
+    const fromFile = base.get(ic.file) || { file: ic.file, tags: [], removed: [], hidden: false };
+    if (same(record, fromFile)) local.delete(ic.file); else local.set(ic.file, record);
+    storage.set(LOCAL_KEY, Object.fromEntries(local));
+    applyTags(ic);
+    searchDirty = true;
+  }
+
+  // ── Search (Fuse.js) ─────────────────────────────────────────────────────
+  // Manual tags weigh most, then automatic groups, then words from the file name.
+  let fuse = null, searchDirty = true;
+  function getFuse() {
+    if (!fuse || searchDirty) {
+      fuse = new Fuse(icons, {
+        keys: [
+          { name: "tags", weight: 6 },
+          { name: "groups", weight: 2 },
+          { name: "words", weight: 1 },
+        ],
+        includeScore: true, ignoreLocation: true, threshold: 0.3, minMatchCharLength: 2, useExtendedSearch: true,
+      });
+      searchDirty = false;
+    }
+    return fuse;
+  }
+
+  // ── State ────────────────────────────────────────────────────────────────
+  // v2: "All on one page" became the default; size, spacing and width carry over from v1.
+  const SETTINGS_KEY = "iconBrowser.settings.v2";
+  const { perPage: _oldPerPage, ...oldSettings } = storage.get("iconBrowser.settings.v1") || {};
+  const settings = Object.assign({ size: 56, gap: 14, perPage: 0, width: 1440, full: false }, oldSettings,
+    storage.get(SETTINGS_KEY) || {});
+  if (settings.width >= 5200) { settings.full = true; settings.width = 5120; } // "Full" before presets existed
+  const state = { q: "", show: "all", view: "main", groups: new Set(), tag: "", page: 0, selected: new Set(), anchor: -1 };
+
+  // Tabs: Classic & Forever (everything not hidden and not Retail), Retail, Hidden.
+  // An icon is Retail while it has the automatic "Retail" group; removing that group
+  // from an icon in the panel moves it to Classic & Forever.
+  const viewOf = (ic) => (ic.hidden ? "hidden" : ic.groups.includes("Retail") ? "retail" : "main");
+  const viewFromHash = () => (["all", "retail", "hidden"].includes(location.hash.slice(1)) ? location.hash.slice(1) : "main");
+  // "All" = Classic & Forever + Retail together (hidden icons stay in Hidden).
+  const inCurrentView = (ic) => (state.view === "all" ? viewOf(ic) !== "hidden" : viewOf(ic) === state.view);
+  let results = [];
+
+  function filterAndSearch() {
+    const keep = (ic) =>
+      inCurrentView(ic) &&
+      [...state.groups].every((g) => ic.groups.includes(g)) &&
+      (!state.tag || ic.tags.includes(state.tag)) &&
+      (state.show === "all" || (state.show === "tagged") === (ic.tags.length > 0));
+
+    const query = state.q.trim();
+    if (!query) return icons.filter(keep);
+
+    // Exact or partial manual-tag matches first ("Bleed" beats files named …bleed…).
+    const q = query.toLowerCase();
+    const boost = (ic) => {
+      const tags = ic.tags.map((t) => t.toLowerCase());
+      if (tags.includes(q)) return 0;
+      if (tags.some((t) => t.includes(q))) return 0.1;
+      return 1;
+    };
+    return getFuse().search(query)
+      .filter((r) => keep(r.item))
+      .sort((a, b) => boost(a.item) - boost(b.item) || a.score - b.score)
+      .map((r) => r.item);
+  }
+
+  // ── Rendering ────────────────────────────────────────────────────────────
+  const perPage = () => Number(settings.perPage) || results.length || 1;
+
+  // File name and tags as invisible text on each icon, so the browser's own
+  // find (Ctrl+F) can find icons; the find highlight shows on top of the icon.
+  const findText = (ic) => esc([ic.file.replace(/\.png$/i, ""), ...ic.tags].join(" "));
+
+  function renderGrid() {
+    const pages = Math.max(1, Math.ceil(results.length / perPage()));
+    state.page = Math.min(state.page, pages - 1);
+    const start = state.page * perPage();
+    const shown = results.slice(start, start + perPage());
+
+    $("grid").innerHTML = shown.length
+      ? shown.map((ic) => `<li><button class="cell${ic.tags.length ? " tagged" : ""}" data-i="${ic.i}"
+          role="option" aria-selected="${state.selected.has(ic.i)}" title="${esc(ic.file)}">
+          <img src="${src(ic)}" alt="" loading="lazy" decoding="async" width="128" height="128">
+          <span class="findtext">${findText(ic)}</span></button></li>`).join("")
+      : `<li class="empty">No icons match. Try another word, group or filter.</li>`;
+
+    $("status").textContent = `${results.length.toLocaleString()} icon${results.length === 1 ? "" : "s"}` +
+      (state.selected.size ? ` · ${state.selected.size} selected` : "");
+    $("pageInfo").textContent = `page ${state.page + 1} / ${pages}`;
+    $("pager").hidden = pages <= 1;
+    $("prev").disabled = state.page === 0;
+    $("next").disabled = state.page >= pages - 1;
+  }
+
+  function renderActive() {
+    const parts = [];
+    state.groups.forEach((g) => parts.push(`<button class="chip x" data-group="${esc(g)}">group: ${esc(g)}</button>`));
+    if (state.tag) parts.push(`<button class="chip tag x" data-clear="tag">tag: ${esc(state.tag)}</button>`);
+    if (parts.length > 1) parts.push(`<button class="chip" data-clear="all">Clear all filters</button>`);
+    $("active").innerHTML = parts.join("");
+  }
+
+  function tagCounts() {
+    const counts = new Map();
+    icons.forEach((ic) => ic.tags.forEach((t) => counts.set(t, (counts.get(t) || 0) + 1)));
+    return [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  }
+
+  function renderOverview() {
+    // Ordered by total size so the chips don't jump around; each count is how many
+    // icons you get with that group added to the groups already picked.
+    const total = new Map(), combined = new Map();
+    const picked = [...state.groups];
+    const inView = inCurrentView;
+    icons.forEach((ic) => {
+      if (!inView(ic)) return;
+      ic.groups.forEach((g) => total.set(g, (total.get(g) || 0) + 1));
+      if (picked.every((g) => ic.groups.includes(g))) {
+        ic.groups.forEach((g) => combined.set(g, (combined.get(g) || 0) + 1));
+      }
+    });
+    const viewCounts = { main: 0, retail: 0, hidden: 0 };
+    icons.forEach((ic) => viewCounts[viewOf(ic)]++);
+    viewCounts.all = viewCounts.main + viewCounts.retail;
+    document.querySelectorAll("#views [data-view]").forEach((a) => {
+      a.querySelector("b").textContent = viewCounts[a.dataset.view].toLocaleString();
+      if (a.dataset.view === state.view) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+    const hiddenCount = viewCounts.hidden;
+    // "Retail" is a tab of its own; only the All tab offers it as a group chip.
+    // One row per category (from tools/build_icons.py), groups in a fixed order so
+    // they stay put while filtering. Only groups that occur on this tab are shown;
+    // "Retail" is a tab of its own, so only the All tab offers it as a filter.
+    const shown = (g) => total.has(g) && (g !== "Retail" || state.view === "all");
+    const chip = (g) => {
+      const n = combined.get(g) || 0;
+      return `<button class="chip${n ? "" : " none"}" data-group="${esc(g)}" aria-pressed="${state.groups.has(g)}">` +
+        `${esc(labels[g] || g)}<b>${n.toLocaleString()}</b></button>`;
+    };
+    const listed = new Set(categories.flatMap(([, groups]) => groups));
+    const rows = [...categories, ["Other", [...total.keys()].filter((g) => !listed.has(g)).sort()]];
+    $("groups").innerHTML = rows
+      .map(([name, groups]) => [name, groups.filter(shown)])
+      .filter(([, groups]) => groups.length)
+      .map(([name, groups]) => `<span class="cat">${esc(name)}</span><div class="chips">${groups.map(chip).join("")}</div>`)
+      .join("");
+    const tags = tagCounts();
+    $("tags").innerHTML = tags.length
+      ? tags.map(([t, n]) => `<button class="chip tag" data-tagfilter="${esc(t)}" aria-pressed="${state.tag === t}">${esc(t)}<b>${n}</b></button>`).join("")
+      : `<span class="hint">No manual tags yet. Select an icon and add one in the panel.</span>`;
+    const tagged = icons.filter((ic) => ic.tags.length).length;
+    $("allOption").textContent = `All on one page (${icons.length.toLocaleString()})`;
+    $("counts").textContent = `${icons.length.toLocaleString()} icons · ${index.groups.length} groups · ` +
+      `${tagged.toLocaleString()} manually tagged · ${hiddenCount.toLocaleString()} hidden`;
+  }
+
+  function renderSaveBar() {
+    const changed = local.size;
+    $("saveMsg").innerHTML = changed
+      ? `<b>${changed} icon${changed === 1 ? "" : "s"} changed</b> in this browser since <code>icon-tags.jsonl</code>. ` +
+        `Export and put the file in the <code>site</code> folder to keep them for good.`
+      : `All tags match <code>icon-tags.jsonl</code> (${base.size} icons). Changes are kept in this browser until you export.`;
+    $("discard").disabled = !changed;
+    $("discard").title = changed
+      ? "Undo every change made in this browser and go back to icon-tags.jsonl"
+      : "Nothing to discard: the tags you see come from icon-tags.jsonl. Use “Clear all tags…” to start over.";
+  }
+
+  const allTagNames = () => [...new Set([...tagCounts().map(([t]) => t), ...index.groups])].sort();
+
+  function tagChip(t, kind, icList) {
+    // kind: "manual" (edit + remove), "auto" (remove), "fromtag" (group from your tag), "removed" (restore)
+    const data = `data-tag="${esc(t)}" data-kind="${kind}"`;
+    if (kind === "manual") {
+      return `<span class="tagchip" ${data}><span class="label" title="Show icons with this tag">${esc(t)}</span>` +
+        `<button data-act="edit" title="Edit tag" aria-label="Edit ${esc(t)}">✎</button>` +
+        `<button data-act="remove" title="Remove tag" aria-label="Remove ${esc(t)}">×</button></span>`;
+    }
+    if (kind === "fromtag") {
+      return `<span class="tagchip auto" ${data}><span class="label" title="In this group because of your tag. Show this group">${esc(t)}</span></span>`;
+    }
+    if (kind === "auto") {
+      return `<span class="tagchip auto" ${data}><span class="label" title="Show this group">${esc(t)}</span>` +
+        `<button data-act="remove" title="Remove this automatic group from the icon" aria-label="Remove ${esc(t)}">×</button></span>`;
+    }
+    return `<span class="tagchip removed" ${data}><span class="label">${esc(t)}</span>` +
+      `<button data-act="restore" title="Put this automatic group back" aria-label="Restore ${esc(t)}">↺</button></span>`;
+  }
+
+  const CLOSE = `<button class="close" data-act="close" title="Close (Esc)" aria-label="Close">×</button>`;
+  // Hide when any selected icon is visible; otherwise offer to show them again.
+  const hideButton = (sel) => sel.some((ic) => !ic.hidden)
+    ? `<button class="btn" data-act="hide" title="Move to the Hidden group (H)">Hide${sel.length > 1 ? ` all ${sel.length}` : ""}</button>`
+    : `<button class="btn" data-act="unhide" title="Bring back from the Hidden group (H)">Show again${sel.length > 1 ? ` (${sel.length})` : ""}</button>`;
+
+  function renderPanel() {
+    const panel = $("panel");
+    const sel = [...state.selected].map((i) => icons[i]);
+    panel.classList.toggle("empty", sel.length === 0);
+    if (!sel.length) {
+      panel.innerHTML = `<p>Select an icon to see its file name, size, tags and groups here.</p>
+        <p>Ctrl-click or Shift-click selects several, to tag or hide them together.</p>`;
+      return;
+    }
+
+    const datalist = `<datalist id="tagNames">${allTagNames().map((t) => `<option value="${esc(t)}">`).join("")}</datalist>`;
+    const addForm = `<form class="addtag" id="addTag"><input name="tag" list="tagNames" placeholder="Add tag, e.g. Bleed (comma for several)" autocomplete="off">
+      <button class="btn primary">Add</button></form>${datalist}`;
+
+    if (sel.length === 1) {
+      const ic = sel[0];
+      const removed = ic.autoGroups.filter((g) => ic.removed.includes(g));
+      panel.innerHTML = `${CLOSE}
+        <h2>${esc(ic.file.replace(/\.png$/i, ""))}</h2>
+        <div class="preview">
+          <img src="${src(ic)}" alt="${esc(ic.file)}">
+          <div class="facts">
+            <span>${ic.w} × ${ic.h} px</span>
+            <span>${(ic.bytes / 1024).toFixed(1)} KB</span>
+            <span>#${ic.i + 1} of ${icons.length.toLocaleString()}</span>
+            <a href="${src(ic)}" target="_blank" rel="noopener">Open original</a>
+          </div>
+        </div>
+        <h3>File name</h3>
+        <div class="fname" title="Click to select">${esc(ic.file)}</div>
+        <div class="hiderow">${hideButton([ic])}${ic.hidden ? `<span class="hint">This icon is hidden.</span>` : ""}</div>
+        <h3>Your tags</h3>
+        <div class="taglist">${ic.tags.map((t) => tagChip(t, "manual")).join("") || `<span class="hint">None yet.</span>`}</div>
+        ${addForm}
+        <h3>Groups (automatic)</h3>
+        <div class="taglist">${ic.groups.map((t) => tagChip(t, ic.tagGroups.includes(t) ? "fromtag" : "auto")).join("") ||
+          `<span class="hint">None.</span>`}
+          ${removed.map((t) => tagChip(t, "removed")).join("")}</div>
+        <p class="hint">← → moves to the next icon. H hides it. Ctrl-click or Shift-click selects several.</p>`;
+    } else {
+      const counts = new Map();
+      sel.forEach((ic) => ic.tags.forEach((t) => counts.set(t, (counts.get(t) || 0) + 1)));
+      const tagList = [...counts.entries()].sort((a, b) => b[1] - a[1]);
+      panel.innerHTML = `${CLOSE}
+        <h2>${sel.length} icons selected</h2>
+        <div class="thumbs">${sel.slice(0, 40).map((ic) => `<img src="${src(ic)}" alt="" title="${esc(ic.file)}">`).join("")}
+          ${sel.length > 40 ? `<span class="hint">+${sel.length - 40} more</span>` : ""}</div>
+        <div class="hiderow">${hideButton(sel)}</div>
+        <h3>Add a tag to all ${sel.length}</h3>
+        ${addForm}
+        <h3>Tags on the selected icons</h3>
+        <div class="taglist">${tagList.map(([t, n]) => tagChip(t, "manual").replace(`>${esc(t)}<`, `>${esc(t)} (${n})<`)).join("") ||
+          `<span class="hint">None yet.</span>`}</div>
+        <p class="hint">✎ renames and × removes the tag on all selected icons. Esc clears the selection.</p>`;
+    }
+  }
+
+  function render() {
+    results = filterAndSearch();
+    renderGrid(); renderActive(); renderOverview(); renderPanel(); renderSaveBar();
+  }
+
+  // Only the parts that change when tags change (keeps the page and scroll position).
+  function refreshAfterTagEdit() {
+    document.querySelectorAll(".cell").forEach((cell) => {
+      const ic = icons[Number(cell.dataset.i)];
+      cell.classList.toggle("tagged", ic.tags.length > 0);
+      cell.querySelector(".findtext").innerHTML = findText(ic);
+    });
+    renderOverview(); renderPanel(); renderSaveBar();
+  }
+
+  // ── Settings: size, spacing, per page, width ─────────────────────────────
+  function applySettings() {
+    const root = document.documentElement.style;
+    root.setProperty("--icon", settings.size + "px");
+    root.setProperty("--gap", settings.gap + "px");
+    root.setProperty("--maxw", settings.full ? "none" : settings.width + "px");
+    $("size").value = settings.size; $("sizeOut").textContent = settings.size + "px";
+    $("gap").value = settings.gap; $("gapOut").textContent = settings.gap + "px";
+    $("width").value = settings.width;
+    $("widthNum").value = settings.width;
+    document.querySelectorAll("#widthPresets [data-width]").forEach((b) => b.setAttribute("aria-pressed",
+      String(b.dataset.width === "full" ? settings.full : !settings.full && Number(b.dataset.width) === settings.width)));
+    $("perPage").value = String(settings.perPage);
+    storage.set(SETTINGS_KEY, settings);
+    document.documentElement.style.setProperty("--toolbar-h", $("toolbar").offsetHeight + 12 + "px");
+    document.documentElement.style.setProperty("--savebar-h", document.querySelector(".savebar").offsetHeight + "px");
+  }
+  for (const key of ["size", "gap"]) {
+    $(key).addEventListener("input", () => { settings[key] = Number($(key).value); applySettings(); });
+  }
+  // Width: the page only re-lays out once a value is set (thousands of icons move each
+  // time), i.e. when the slider is released, Enter is pressed in the box, or a preset is picked.
+  function setWidth(value) {
+    const min = Number($("width").min), max = Number($("width").max);
+    settings.width = Math.min(max, Math.max(min, Math.round(Number(value) || settings.width)));
+    settings.full = false;
+    applySettings();
+  }
+  $("width").addEventListener("input", () => { $("widthNum").value = $("width").value; }); // preview only
+  $("width").addEventListener("change", () => setWidth($("width").value));
+  $("widthNum").addEventListener("change", () => setWidth($("widthNum").value));       // Enter or leaving the box
+  $("widthPresets").addEventListener("click", (ev) => {
+    const b = ev.target.closest("[data-width]");
+    if (!b) return;
+    if (b.dataset.width === "full") { settings.full = true; applySettings(); } else setWidth(b.dataset.width);
+  });
+  $("perPage").addEventListener("change", () => {
+    settings.perPage = Number($("perPage").value); state.page = 0; applySettings(); renderGrid();
+  });
+
+  // ── Search and filters ───────────────────────────────────────────────────
+  let typing;
+  $("q").addEventListener("input", () => {
+    clearTimeout(typing);
+    typing = setTimeout(() => { state.q = $("q").value; state.page = 0; render(); }, 150);
+  });
+  $("show").addEventListener("change", () => { state.show = $("show").value; state.page = 0; render(); });
+  $("prev").addEventListener("click", () => { state.page--; renderGrid(); window.scrollTo(0, 0); });
+  $("next").addEventListener("click", () => { state.page++; renderGrid(); window.scrollTo(0, 0); });
+
+  function setGroup(g) {
+    state.groups.has(g) ? state.groups.delete(g) : state.groups.add(g);
+    state.page = 0; render();
+  }
+  function setTagFilter(t) { state.tag = state.tag === t ? "" : t; state.page = 0; render(); }
+
+  document.addEventListener("click", (ev) => {
+    const t = ev.target;
+    const clear = t.closest("[data-clear]");
+    if (clear) {
+      if (clear.dataset.clear === "all") { state.groups.clear(); state.tag = ""; } else state[clear.dataset.clear] = "";
+      state.page = 0; render(); return;
+    }
+    const g = t.closest("[data-group]");
+    if (g) { setGroup(g.dataset.group); return; }
+    const tf = t.closest("[data-tagfilter]");
+    if (tf) { setTagFilter(tf.dataset.tagfilter); return; }
+  });
+
+  // ── Selection ────────────────────────────────────────────────────────────
+  $("grid").addEventListener("click", (ev) => {
+    const cell = ev.target.closest(".cell");
+    if (!cell) return;
+    const i = Number(cell.dataset.i);
+    if (ev.shiftKey && state.anchor >= 0) {
+      const order = results.map((ic) => ic.i);
+      const [a, b] = [order.indexOf(state.anchor), order.indexOf(i)].sort((x, y) => x - y);
+      if (a >= 0) order.slice(a, b + 1).forEach((x) => state.selected.add(x));
+    } else if (ev.ctrlKey || ev.metaKey) {
+      state.selected.has(i) ? state.selected.delete(i) : state.selected.add(i);
+      state.anchor = i;
+    } else {
+      state.selected = new Set([i]);
+      state.anchor = i;
+    }
+    document.querySelectorAll(".cell").forEach((c) =>
+      c.setAttribute("aria-selected", String(state.selected.has(Number(c.dataset.i)))));
+    renderPanel();
+    $("status").textContent = `${results.length.toLocaleString()} icons` + (state.selected.size ? ` · ${state.selected.size} selected` : "");
+  });
+
+  function showSelection() {
+    document.querySelectorAll(".cell").forEach((c) =>
+      c.setAttribute("aria-selected", String(state.selected.has(Number(c.dataset.i)))));
+    renderPanel();
+    $("status").textContent = `${results.length.toLocaleString()} icons` + (state.selected.size ? ` · ${state.selected.size} selected` : "");
+  }
+
+  function clearSelection() { state.selected.clear(); state.anchor = -1; showSelection(); }
+
+  function moveSelection(step) {
+    if (state.selected.size !== 1) return;
+    const order = results.map((ic) => ic.i);
+    const pos = order.indexOf([...state.selected][0]) + step;
+    if (pos < 0 || pos >= order.length) return;
+    state.selected = new Set([order[pos]]);
+    state.anchor = order[pos];
+    const page = Math.floor(pos / perPage());
+    if (page !== state.page) { state.page = page; renderGrid(); }
+    document.querySelectorAll(".cell").forEach((c) =>
+      c.setAttribute("aria-selected", String(state.selected.has(Number(c.dataset.i)))));
+    document.querySelector(`.cell[data-i="${order[pos]}"]`)?.scrollIntoView({ block: "nearest" });
+    renderPanel();
+  }
+
+  document.addEventListener("keydown", (ev) => {
+    const typingInField = ["INPUT", "SELECT", "TEXTAREA"].includes(document.activeElement.tagName);
+    if (ev.key === "/" && !typingInField) { ev.preventDefault(); $("q").focus(); $("q").select(); return; }
+    if (typingInField) return;
+    if (ev.key === "Escape" && state.selected.size) clearSelection();
+    if (ev.key.toLowerCase() === "h" && !ev.ctrlKey && !ev.metaKey && !ev.altKey && state.selected.size) {
+      setHidden(selectedIcons().some((ic) => !ic.hidden));
+    }
+    if (ev.key === "ArrowRight") { ev.preventDefault(); moveSelection(1); }
+    if (ev.key === "ArrowLeft") { ev.preventDefault(); moveSelection(-1); }
+  });
+
+  // ── Editing tags in the panel ────────────────────────────────────────────
+  const selectedIcons = () => [...state.selected].map((i) => icons[i]);
+
+  // Hides (or shows again) the selected icons. They leave the current view, so the
+  // selection is cleared and the grid redrawn.
+  function setHidden(hidden) {
+    selectedIcons().forEach((ic) => setRecord(ic, ic.tags, ic.removed, hidden));
+    state.selected.clear(); state.anchor = -1;
+    render();
+  }
+
+  $("panel").addEventListener("submit", (ev) => {
+    if (ev.target.id !== "addTag") return;
+    ev.preventDefault();
+    const input = ev.target.elements.tag;
+    const newTags = input.value.split(",").map((t) => t.trim()).filter(Boolean);
+    if (!newTags.length) return;
+    selectedIcons().forEach((ic) => setRecord(ic, [...ic.tags, ...newTags], ic.removed));
+    refreshAfterTagEdit();
+    $("panel").querySelector("#addTag input")?.focus();
+  });
+
+  $("panel").addEventListener("click", (ev) => {
+    if (ev.target.closest("[data-act=close]")) { clearSelection(); return; }
+    if (ev.target.closest("[data-act=hide]")) { setHidden(true); return; }
+    if (ev.target.closest("[data-act=unhide]")) { setHidden(false); return; }
+    const chip = ev.target.closest(".tagchip");
+    if (!chip) return;
+    const tag = chip.dataset.tag, kind = chip.dataset.kind;
+    const act = ev.target.closest("button")?.dataset.act;
+    const sel = selectedIcons();
+
+    if (!act && ev.target.closest(".label")) {
+      // Click on the name: show all icons with this tag / group.
+      kind === "manual" ? setTagFilter(tag) : setGroup(tag);
+      return;
+    }
+    if (act === "remove" && kind === "manual") {
+      sel.forEach((ic) => setRecord(ic, ic.tags.filter((t) => t !== tag), ic.removed));
+    } else if (act === "remove" && kind === "auto") {
+      sel.forEach((ic) => setRecord(ic, ic.tags, [...ic.removed, tag]));
+    } else if (act === "restore") {
+      sel.forEach((ic) => setRecord(ic, ic.tags, ic.removed.filter((t) => t !== tag)));
+    } else if (act === "edit") {
+      startEdit(chip, tag, sel);
+      return;
+    } else {
+      return;
+    }
+    refreshAfterTagEdit();
+  });
+
+  // Inline edit: the tag's name becomes a text field; Enter saves, Esc cancels.
+  function startEdit(chip, tag, sel) {
+    const label = chip.querySelector(".label");
+    const input = document.createElement("input");
+    input.value = tag;
+    label.replaceWith(input);
+    input.focus(); input.select();
+    const finish = (save) => {
+      const value = input.value.trim();
+      if (save && value && value !== tag) {
+        sel.forEach((ic) => setRecord(ic, ic.tags.map((t) => (t === tag ? value : t)), ic.removed));
+        if (state.tag === tag) state.tag = value;
+      }
+      refreshAfterTagEdit();
+    };
+    input.addEventListener("keydown", (ev) => {
+      if (ev.key === "Enter") { ev.preventDefault(); finish(true); }
+      if (ev.key === "Escape") { ev.preventDefault(); ev.stopPropagation(); finish(false); }
+    });
+    input.addEventListener("blur", () => finish(true), { once: true });
+  }
+
+  // Rename or delete a tag on every icon.
+  $("renameTag").addEventListener("click", () => {
+    const from = prompt("Rename which tag? (exact name)");
+    if (!from) return;
+    const to = prompt(`Rename "${from}" to:`, from);
+    if (!to || to === from) return;
+    icons.filter((ic) => ic.tags.includes(from))
+      .forEach((ic) => setRecord(ic, ic.tags.map((t) => (t === from ? to : t)), ic.removed));
+    if (state.tag === from) state.tag = to;
+    render();
+  });
+  $("deleteTag").addEventListener("click", () => {
+    const tag = prompt("Delete which tag from every icon? (exact name)");
+    if (!tag) return;
+    const hits = icons.filter((ic) => ic.tags.includes(tag));
+    if (!hits.length || !confirm(`Remove "${tag}" from ${hits.length} icon(s)?`)) return;
+    hits.forEach((ic) => setRecord(ic, ic.tags.filter((t) => t !== tag), ic.removed));
+    if (state.tag === tag) state.tag = "";
+    render();
+  });
+
+  // ── Export / import / discard ────────────────────────────────────────────
+  $("export").addEventListener("click", () => {
+    const lines = icons
+      .map((ic) => recordOf(ic.file))
+      .filter((r) => r.tags.length || r.removed.length || r.hidden)
+      .sort((a, b) => a.file.localeCompare(b.file))
+      .map((r) => JSON.stringify({
+        file: r.file, tags: r.tags,
+        ...(r.removed.length ? { removed: r.removed } : {}),
+        ...(r.hidden ? { hidden: true } : {}),
+      }));
+    const blob = new Blob([lines.join("\n") + (lines.length ? "\n" : "")], { type: "application/x-ndjson" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "icon-tags.jsonl";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  $("importFile").addEventListener("change", async () => {
+    const file = $("importFile").files[0];
+    if (!file) return;
+    const records = parseJsonl(await file.text());
+    let n = 0;
+    for (const r of records) {
+      const ic = byFile.get(r.file);
+      if (ic) { setRecord(ic, r.tags, r.removed, r.hidden); n++; }
+    }
+    $("importFile").value = "";
+    render();
+    alert(`Imported tags for ${n} icon(s)${records.length > n ? `; ${records.length - n} line(s) didn't match an icon` : ""}.`);
+  });
+
+  $("discard").addEventListener("click", () => {
+    if (!confirm(`Throw away the changes to ${local.size} icon(s) made in this browser, and go back to icon-tags.jsonl?`)) return;
+    local = new Map();
+    storage.remove(LOCAL_KEY);
+    icons.forEach(applyTags);
+    searchDirty = true;
+    render();
+  });
+
+  // Empties every icon's tags, hidden flag and removed groups in this browser.
+  // Discard brings them back from icon-tags.jsonl; Export writes the empty result.
+  $("clearAll").addEventListener("click", () => {
+    const touched = icons.filter((ic) => ic.tags.length || ic.removed.length || ic.hidden);
+    if (!touched.length) { alert("There are no tags, hidden icons or removed groups to clear."); return; }
+    if (!confirm(`Clear tags, hidden icons and removed groups on ${touched.length} icon(s) in this browser?\n\n` +
+      "icon-tags.jsonl isn't changed: “Discard browser changes” brings everything back, and Export writes the cleared result.")) return;
+    touched.forEach((ic) => setRecord(ic, [], [], false));
+    state.tag = "";
+    render();
+  });
+
+  // ── Start ────────────────────────────────────────────────────────────────
+  function setViewFromHash() {
+    state.view = viewFromHash();
+    state.groups.clear(); state.tag = ""; state.page = 0;
+    state.selected.clear(); state.anchor = -1;
+    document.title = { all: "All Icons", main: "Icon Browser", retail: "Retail Icons", hidden: "Hidden Icons" }[state.view];
+    render();
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener("hashchange", setViewFromHash);
+  state.view = viewFromHash();
+
+  applySettings();
+  render();
+  window.addEventListener("resize", applySettings);
+})();
+</script>
